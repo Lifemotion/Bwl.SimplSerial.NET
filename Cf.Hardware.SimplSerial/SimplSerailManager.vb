@@ -12,7 +12,12 @@ Public Class SimplSerailManager
 		_logger = logger
 		_storage = storage
 		_bus = New SimplSerialBus(_storage.CreateChildStorage("SimplSerial"))
-		_bus.Connect()
+		Try
+			_bus.Connect()
+		Catch ex As Exception
+
+		End Try
+
 		CheckConnection()
 	End Sub
 
@@ -38,12 +43,12 @@ Public Class SimplSerailManager
 		Return res
 	End Function
 
-	Public Function PrepareAndGetShortAddr(addressGuid As Guid) As UShort
+	Public Function PrepareAndGetShortAddr(addressGuid As Guid, checkAddr As Boolean) As UShort
 		Dim shortAddr As UShort = 0
 		SyncLock (_busLocker)
 			If CheckConnection() Then
 				Try
-					shortAddr = GetShortAddr(addressGuid)
+					shortAddr = GetShortAddr(addressGuid, checkAddr)
 					If shortAddr > 0 Then
 						_bus.RequestSetAddress(addressGuid, shortAddr)
 					End If
@@ -55,26 +60,28 @@ Public Class SimplSerailManager
 		Return shortAddr
 	End Function
 
-	Public Function GetShortAddr(AddressGuid As Guid) As UShort
+	Public Function GetShortAddr(AddressGuid As Guid, checkAddr As Boolean) As UShort
 		SyncLock (_busLocker)
 			SyncLock (_adresses)
 				Dim guidStr = AddressGuid.ToString()
 				Dim shortAddr = _rand.Next(UShort.MaxValue)
-				If _adresses.ContainsKey(guidStr) Then
-					shortAddr = _adresses(guidStr)
-				End If
+				If checkAddr Then
+					If _adresses.ContainsKey(guidStr) Then
+						shortAddr = _adresses(guidStr)
+					End If
 
-				If _bus IsNot Nothing Then
-					While (True)
-						Dim res = _bus.RequestDeviceInfo(shortAddr)
-						If (res.Response.ResponseState <> ResponseState.ok) OrElse (res.DeviceGuid = AddressGuid) Then
-							Exit While
-						End If
-						shortAddr = _rand.Next(UShort.MaxValue)
-					End While
-				End If
+					If _bus IsNot Nothing Then
+						While (True)
+							Dim res = _bus.RequestDeviceInfo(shortAddr)
+							If (res.Response.ResponseState <> ResponseState.ok) OrElse (res.DeviceGuid = AddressGuid) Then
+								Exit While
+							End If
+							shortAddr = _rand.Next(UShort.MaxValue)
+						End While
+					End If
 
-				_adresses(guidStr) = shortAddr
+					_adresses(guidStr) = shortAddr
+				End If
 				Return shortAddr
 			End SyncLock
 		End SyncLock
