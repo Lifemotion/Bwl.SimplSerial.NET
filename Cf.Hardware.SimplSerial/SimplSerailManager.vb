@@ -12,7 +12,7 @@ Public Class SimplSerailManager
 		_logger = logger
 		_storage = storage
 		_bus = New SimplSerialBus(_storage.CreateChildStorage("SimplSerial"))
-
+		_bus.Connect()
 		CheckConnection()
 	End Sub
 
@@ -24,23 +24,17 @@ Public Class SimplSerailManager
 
 	Public Function CheckConnection() As Boolean
 		Dim res = False
-
 		SyncLock (_busLocker)
-			If _bus IsNot Nothing AndAlso _bus.IsConnected Then
-				_bus.Disconnect()
-			End If
 			If Not _bus.IsConnected Then
-				'_logger.AddMessage("Порт " + PortName.Value + " не подключен!")
-				Threading.Thread.Sleep(100)
+				Threading.Thread.Sleep(1)
 				Try
 					_bus.Connect()
 				Catch ex As Exception
 					_logger.AddWarning("SimplSerailManager - " + ex.Message)
 				End Try
-				res = _bus.IsConnected
 			End If
+			res = _bus.IsConnected
 		End SyncLock
-
 		Return res
 	End Function
 
