@@ -2,10 +2,14 @@
 
 Public Class SimplSerialTool
     Inherits Form
-    Private _sserial As SimplSerialBus
+    Private Shared _sserial As SimplSerialBus
     Private _logger As Logger
     Private _storage As SettingsStorage
-
+    Public Shared ReadOnly Property SSerial As SimplSerialBus
+        Get
+            Return _sserial
+        End Get
+    End Property
     Public Sub New(sserial As SimplSerialBus, storage As SettingsStorage, logger As Logger)
         InitializeComponent()
         _sserial = sserial
@@ -19,6 +23,14 @@ Public Class SimplSerialTool
     Private Sub Tool_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         _logger.ConnectWriter(DatagridLogWriter1)
         ShowGuidInfo()
+        CodeExecutor1.ReferencesList.Add("Bwl.Hardware.SimplSerial.Tool.exe")
+        CodeExecutor1.ImportsList.Add("SimplSerialTool")
+        CodeExecutor1.Logger = _logger
+        CodeExecutor1.SourceText += "Sub Main()" + vbCrLf
+        CodeExecutor1.SourceText += "Dim result = SimplSerialTool.SSerial.Request(New SSRequest(0, 254, {}))" + vbCrLf
+        CodeExecutor1.SourceText += "CodeExecutor.Output(result.ToString)" + vbCrLf
+        CodeExecutor1.SourceText += "End Sub" + vbCrLf
+
 
     End Sub
 
@@ -223,21 +235,6 @@ Public Class SimplSerialTool
                 End Sub)
     End Sub
 
-    Private Sub TextBox12_TextChanged(sender As Object, e As EventArgs) Handles pinA.TextChanged
-
-    End Sub
-
-    Private Sub TextBox11_TextChanged(sender As Object, e As EventArgs) Handles pinB.TextChanged
-
-    End Sub
-
-    Private Sub TextBox10_TextChanged(sender As Object, e As EventArgs) Handles pinC.TextChanged
-
-    End Sub
-
-    Private Sub TextBox9_TextChanged(sender As Object, e As EventArgs) Handles pinD.TextChanged
-
-    End Sub
 
     Public Function String2Byte(str As String) As Byte
         str = str.PadLeft(8)
@@ -343,19 +340,13 @@ Public Class SimplSerialTool
         Next
     End Sub
 
-    Private Sub TabPage3_Click(sender As Object, e As EventArgs) Handles TabPage3.Click
 
-    End Sub
 
     Private Sub guidCommentTextbox_KeyDown(sender As Object, e As KeyEventArgs) Handles guidCommentTextbox.KeyDown
         If e.KeyCode = Keys.Enter Then
             SaveGuidInfo(guidToAddTextbox.Text, guidCommentTextbox.Text)
             ShowGuidInfo()
         End If
-    End Sub
-
-    Private Sub guidCommentTextbox_TextChanged(sender As Object, e As EventArgs) Handles guidCommentTextbox.TextChanged
-
     End Sub
 
     Private Sub identifiersList_Click(sender As Object, e As EventArgs) Handles identifiersList.Click
@@ -366,7 +357,7 @@ Public Class SimplSerialTool
         End If
     End Sub
 
-    Private Sub identifiersList_SelectedIndexChanged(sender As Object, e As EventArgs) Handles identifiersList.SelectedIndexChanged
+    Private Sub CodeExecutor1_Load(sender As Object, e As EventArgs) Handles CodeExecutor1.Load
 
     End Sub
 End Class
