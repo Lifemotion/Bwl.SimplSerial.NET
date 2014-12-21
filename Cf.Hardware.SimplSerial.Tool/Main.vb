@@ -1,4 +1,4 @@
-﻿Public Class Main
+﻿Public Class Tool
     Public Shared AppBase As New AppBase(True)
     Public Shared Sub Main()
 

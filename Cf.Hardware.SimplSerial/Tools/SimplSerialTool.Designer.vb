@@ -62,6 +62,8 @@ Partial Class SimplSerialTool
         Me.getCurrentGuidButton = New System.Windows.Forms.Button()
         Me.guidToAddTextbox = New System.Windows.Forms.TextBox()
         Me.identifiersList = New System.Windows.Forms.ListBox()
+        Me.TabPage4 = New System.Windows.Forms.TabPage()
+        Me.CodeExecutor1 = New Bwl.Hardware.SimplSerial.CodeExecutor()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.devAddressTextbox = New System.Windows.Forms.TextBox()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -82,6 +84,7 @@ Partial Class SimplSerialTool
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
         Me.TabPage3.SuspendLayout()
+        Me.TabPage4.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -90,6 +93,7 @@ Partial Class SimplSerialTool
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Controls.Add(Me.TabPage3)
+        Me.TabControl1.Controls.Add(Me.TabPage4)
         Me.TabControl1.Location = New System.Drawing.Point(2, 110)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
@@ -447,6 +451,29 @@ Partial Class SimplSerialTool
         Me.identifiersList.Size = New System.Drawing.Size(521, 212)
         Me.identifiersList.TabIndex = 0
         '
+        'TabPage4
+        '
+        Me.TabPage4.Controls.Add(Me.CodeExecutor1)
+        Me.TabPage4.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage4.Name = "TabPage4"
+        Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage4.Size = New System.Drawing.Size(771, 230)
+        Me.TabPage4.TabIndex = 3
+        Me.TabPage4.Text = "Скрипт"
+        Me.TabPage4.UseVisualStyleBackColor = True
+        '
+        'CodeExecutor1
+        '
+        Me.CodeExecutor1.ImportsList = CType(resources.GetObject("CodeExecutor1.ImportsList"), System.Collections.Generic.List(Of String))
+        Me.CodeExecutor1.Location = New System.Drawing.Point(6, 6)
+        Me.CodeExecutor1.Name = "CodeExecutor1"
+        Me.CodeExecutor1.ReferencesList = CType(resources.GetObject("CodeExecutor1.ReferencesList"), System.Collections.Generic.List(Of String))
+        Me.CodeExecutor1.Size = New System.Drawing.Size(754, 218)
+        Me.CodeExecutor1.SourceText = ""
+        Me.CodeExecutor1.TabIndex = 0
+        Me.CodeExecutor1.Template = "Imports Bwl.Hardware.SimplSerial.SimplSerialBus'importsPublic Class TestProgram'c" & _
+    "odeEnd Class"
+        '
         'Label4
         '
         Me.Label4.AutoSize = True
@@ -614,6 +641,7 @@ Partial Class SimplSerialTool
         Me.TabPage2.PerformLayout()
         Me.TabPage3.ResumeLayout(False)
         Me.TabPage3.PerformLayout()
+        Me.TabPage4.ResumeLayout(False)
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
         Me.ResumeLayout(False)
@@ -674,5 +702,7 @@ Partial Class SimplSerialTool
     Friend WithEvents getCurrentGuidButton As System.Windows.Forms.Button
     Friend WithEvents guidToAddTextbox As System.Windows.Forms.TextBox
     Friend WithEvents reqGuidTextbox As System.Windows.Forms.TextBox
+    Friend WithEvents TabPage4 As System.Windows.Forms.TabPage
+    Friend WithEvents CodeExecutor1 As Bwl.Hardware.SimplSerial.CodeExecutor
 
 End Class
