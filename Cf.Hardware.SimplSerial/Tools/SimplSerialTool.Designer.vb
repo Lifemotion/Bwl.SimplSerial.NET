@@ -23,6 +23,7 @@ Partial Class SimplSerialTool
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SimplSerialTool))
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.pinD = New System.Windows.Forms.TextBox()
@@ -54,6 +55,13 @@ Partial Class SimplSerialTool
         Me.reqBootInfoButton = New System.Windows.Forms.Button()
         Me.spmSizeTextbox = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
+        Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.queryAllGuidsButton = New System.Windows.Forms.Button()
+        Me.guidCommentTextbox = New System.Windows.Forms.TextBox()
+        Me.addGuidButton = New System.Windows.Forms.Button()
+        Me.getCurrentGuidButton = New System.Windows.Forms.Button()
+        Me.guidToAddTextbox = New System.Windows.Forms.TextBox()
+        Me.identifiersList = New System.Windows.Forms.ListBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.devAddressTextbox = New System.Windows.Forms.TextBox()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -69,9 +77,11 @@ Partial Class SimplSerialTool
         Me.DatagridLogWriter1 = New Bwl.Framework.DatagridLogWriter()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.НастройкиToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.reqGuidTextbox = New System.Windows.Forms.TextBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
+        Me.TabPage3.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -79,6 +89,7 @@ Partial Class SimplSerialTool
         '
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage2)
+        Me.TabControl1.Controls.Add(Me.TabPage3)
         Me.TabControl1.Location = New System.Drawing.Point(2, 110)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
@@ -114,7 +125,7 @@ Partial Class SimplSerialTool
         '
         'pinD
         '
-        Me.pinD.Location = New System.Drawing.Point(693, 31)
+        Me.pinD.Location = New System.Drawing.Point(392, 85)
         Me.pinD.Name = "pinD"
         Me.pinD.Size = New System.Drawing.Size(62, 20)
         Me.pinD.TabIndex = 25
@@ -122,7 +133,7 @@ Partial Class SimplSerialTool
         '
         'pinC
         '
-        Me.pinC.Location = New System.Drawing.Point(626, 31)
+        Me.pinC.Location = New System.Drawing.Point(325, 85)
         Me.pinC.Name = "pinC"
         Me.pinC.Size = New System.Drawing.Size(62, 20)
         Me.pinC.TabIndex = 24
@@ -130,7 +141,7 @@ Partial Class SimplSerialTool
         '
         'pinB
         '
-        Me.pinB.Location = New System.Drawing.Point(558, 31)
+        Me.pinB.Location = New System.Drawing.Point(257, 85)
         Me.pinB.Name = "pinB"
         Me.pinB.Size = New System.Drawing.Size(62, 20)
         Me.pinB.TabIndex = 23
@@ -138,7 +149,7 @@ Partial Class SimplSerialTool
         '
         'pinA
         '
-        Me.pinA.Location = New System.Drawing.Point(490, 32)
+        Me.pinA.Location = New System.Drawing.Point(189, 86)
         Me.pinA.Name = "pinA"
         Me.pinA.Size = New System.Drawing.Size(62, 20)
         Me.pinA.TabIndex = 22
@@ -146,7 +157,7 @@ Partial Class SimplSerialTool
         '
         'ddrD
         '
-        Me.ddrD.Location = New System.Drawing.Point(392, 58)
+        Me.ddrD.Location = New System.Drawing.Point(392, 59)
         Me.ddrD.Name = "ddrD"
         Me.ddrD.Size = New System.Drawing.Size(62, 20)
         Me.ddrD.TabIndex = 21
@@ -154,7 +165,7 @@ Partial Class SimplSerialTool
         '
         'ddrC
         '
-        Me.ddrC.Location = New System.Drawing.Point(325, 58)
+        Me.ddrC.Location = New System.Drawing.Point(325, 59)
         Me.ddrC.Name = "ddrC"
         Me.ddrC.Size = New System.Drawing.Size(62, 20)
         Me.ddrC.TabIndex = 20
@@ -162,7 +173,7 @@ Partial Class SimplSerialTool
         '
         'ddrB
         '
-        Me.ddrB.Location = New System.Drawing.Point(257, 58)
+        Me.ddrB.Location = New System.Drawing.Point(257, 59)
         Me.ddrB.Name = "ddrB"
         Me.ddrB.Size = New System.Drawing.Size(62, 20)
         Me.ddrB.TabIndex = 19
@@ -170,7 +181,7 @@ Partial Class SimplSerialTool
         '
         'ddrA
         '
-        Me.ddrA.Location = New System.Drawing.Point(189, 59)
+        Me.ddrA.Location = New System.Drawing.Point(189, 60)
         Me.ddrA.Name = "ddrA"
         Me.ddrA.Size = New System.Drawing.Size(62, 20)
         Me.ddrA.TabIndex = 18
@@ -178,7 +189,7 @@ Partial Class SimplSerialTool
         '
         'portD
         '
-        Me.portD.Location = New System.Drawing.Point(392, 32)
+        Me.portD.Location = New System.Drawing.Point(392, 33)
         Me.portD.Name = "portD"
         Me.portD.Size = New System.Drawing.Size(62, 20)
         Me.portD.TabIndex = 17
@@ -186,7 +197,7 @@ Partial Class SimplSerialTool
         '
         'portC
         '
-        Me.portC.Location = New System.Drawing.Point(325, 32)
+        Me.portC.Location = New System.Drawing.Point(325, 33)
         Me.portC.Name = "portC"
         Me.portC.Size = New System.Drawing.Size(62, 20)
         Me.portC.TabIndex = 16
@@ -194,7 +205,7 @@ Partial Class SimplSerialTool
         '
         'portB
         '
-        Me.portB.Location = New System.Drawing.Point(257, 32)
+        Me.portB.Location = New System.Drawing.Point(257, 33)
         Me.portB.Name = "portB"
         Me.portB.Size = New System.Drawing.Size(62, 20)
         Me.portB.TabIndex = 15
@@ -202,7 +213,7 @@ Partial Class SimplSerialTool
         '
         'portA
         '
-        Me.portA.Location = New System.Drawing.Point(189, 33)
+        Me.portA.Location = New System.Drawing.Point(189, 34)
         Me.portA.Name = "portA"
         Me.portA.Size = New System.Drawing.Size(62, 20)
         Me.portA.TabIndex = 14
@@ -210,7 +221,7 @@ Partial Class SimplSerialTool
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(6, 58)
+        Me.Button2.Location = New System.Drawing.Point(6, 86)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(177, 21)
         Me.Button2.TabIndex = 13
@@ -219,7 +230,7 @@ Partial Class SimplSerialTool
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(6, 32)
+        Me.Button1.Location = New System.Drawing.Point(6, 33)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(177, 21)
         Me.Button1.TabIndex = 13
@@ -228,17 +239,17 @@ Partial Class SimplSerialTool
         '
         '_setAddressValueTextbox
         '
-        Me._setAddressValueTextbox.Location = New System.Drawing.Point(353, 6)
+        Me._setAddressValueTextbox.Location = New System.Drawing.Point(460, 7)
         Me._setAddressValueTextbox.Name = "_setAddressValueTextbox"
-        Me._setAddressValueTextbox.Size = New System.Drawing.Size(62, 20)
+        Me._setAddressValueTextbox.Size = New System.Drawing.Size(61, 20)
         Me._setAddressValueTextbox.TabIndex = 12
         Me._setAddressValueTextbox.Text = "0"
         '
         '_setAddressGuidTextbox
         '
-        Me._setAddressGuidTextbox.Location = New System.Drawing.Point(111, 6)
+        Me._setAddressGuidTextbox.Location = New System.Drawing.Point(189, 7)
         Me._setAddressGuidTextbox.Name = "_setAddressGuidTextbox"
-        Me._setAddressGuidTextbox.Size = New System.Drawing.Size(236, 20)
+        Me._setAddressGuidTextbox.Size = New System.Drawing.Size(265, 20)
         Me._setAddressGuidTextbox.TabIndex = 11
         Me._setAddressGuidTextbox.Text = "0"
         '
@@ -246,7 +257,7 @@ Partial Class SimplSerialTool
         '
         Me.setAddressButton.Location = New System.Drawing.Point(5, 5)
         Me.setAddressButton.Name = "setAddressButton"
-        Me.setAddressButton.Size = New System.Drawing.Size(100, 21)
+        Me.setAddressButton.Size = New System.Drawing.Size(178, 21)
         Me.setAddressButton.TabIndex = 10
         Me.setAddressButton.Text = "Уст. адрес"
         Me.setAddressButton.UseVisualStyleBackColor = True
@@ -269,14 +280,14 @@ Partial Class SimplSerialTool
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage2.Size = New System.Drawing.Size(771, 230)
         Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "Бутлоадер"
+        Me.TabPage2.Text = "Загрузчик"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
         'eraseProgramButton
         '
-        Me.eraseProgramButton.Location = New System.Drawing.Point(6, 62)
+        Me.eraseProgramButton.Location = New System.Drawing.Point(6, 71)
         Me.eraseProgramButton.Name = "eraseProgramButton"
-        Me.eraseProgramButton.Size = New System.Drawing.Size(98, 23)
+        Me.eraseProgramButton.Size = New System.Drawing.Size(206, 23)
         Me.eraseProgramButton.TabIndex = 17
         Me.eraseProgramButton.Text = "Очистить"
         Me.eraseProgramButton.UseVisualStyleBackColor = True
@@ -285,16 +296,16 @@ Partial Class SimplSerialTool
         '
         Me.gotoMain.Location = New System.Drawing.Point(112, 7)
         Me.gotoMain.Name = "gotoMain"
-        Me.gotoMain.Size = New System.Drawing.Size(100, 21)
+        Me.gotoMain.Size = New System.Drawing.Size(100, 26)
         Me.gotoMain.TabIndex = 16
         Me.gotoMain.Text = "В основную"
         Me.gotoMain.UseVisualStyleBackColor = True
         '
         'programMemButton
         '
-        Me.programMemButton.Location = New System.Drawing.Point(112, 62)
+        Me.programMemButton.Location = New System.Drawing.Point(6, 100)
         Me.programMemButton.Name = "programMemButton"
-        Me.programMemButton.Size = New System.Drawing.Size(99, 23)
+        Me.programMemButton.Size = New System.Drawing.Size(205, 23)
         Me.programMemButton.TabIndex = 15
         Me.programMemButton.Text = "Прошивка"
         Me.programMemButton.UseVisualStyleBackColor = True
@@ -303,7 +314,7 @@ Partial Class SimplSerialTool
         '
         Me.goToBootloader.Location = New System.Drawing.Point(6, 6)
         Me.goToBootloader.Name = "goToBootloader"
-        Me.goToBootloader.Size = New System.Drawing.Size(100, 21)
+        Me.goToBootloader.Size = New System.Drawing.Size(100, 27)
         Me.goToBootloader.TabIndex = 14
         Me.goToBootloader.Text = "В бутлоадер"
         Me.goToBootloader.UseVisualStyleBackColor = True
@@ -346,9 +357,9 @@ Partial Class SimplSerialTool
         '
         'reqBootInfoButton
         '
-        Me.reqBootInfoButton.Location = New System.Drawing.Point(6, 34)
+        Me.reqBootInfoButton.Location = New System.Drawing.Point(6, 39)
         Me.reqBootInfoButton.Name = "reqBootInfoButton"
-        Me.reqBootInfoButton.Size = New System.Drawing.Size(206, 21)
+        Me.reqBootInfoButton.Size = New System.Drawing.Size(206, 26)
         Me.reqBootInfoButton.TabIndex = 5
         Me.reqBootInfoButton.Text = "Запрос парам. бутлоадера"
         Me.reqBootInfoButton.UseVisualStyleBackColor = True
@@ -370,6 +381,71 @@ Partial Class SimplSerialTool
         Me.Label5.Size = New System.Drawing.Size(51, 13)
         Me.Label5.TabIndex = 7
         Me.Label5.Text = "SPM size"
+        '
+        'TabPage3
+        '
+        Me.TabPage3.Controls.Add(Me.queryAllGuidsButton)
+        Me.TabPage3.Controls.Add(Me.guidCommentTextbox)
+        Me.TabPage3.Controls.Add(Me.addGuidButton)
+        Me.TabPage3.Controls.Add(Me.getCurrentGuidButton)
+        Me.TabPage3.Controls.Add(Me.guidToAddTextbox)
+        Me.TabPage3.Controls.Add(Me.identifiersList)
+        Me.TabPage3.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage3.Name = "TabPage3"
+        Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage3.Size = New System.Drawing.Size(771, 230)
+        Me.TabPage3.TabIndex = 2
+        Me.TabPage3.Text = "Идентификаторы"
+        Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'queryAllGuidsButton
+        '
+        Me.queryAllGuidsButton.Location = New System.Drawing.Point(536, 85)
+        Me.queryAllGuidsButton.Name = "queryAllGuidsButton"
+        Me.queryAllGuidsButton.Size = New System.Drawing.Size(224, 21)
+        Me.queryAllGuidsButton.TabIndex = 8
+        Me.queryAllGuidsButton.Text = "Опросить все"
+        Me.queryAllGuidsButton.UseVisualStyleBackColor = True
+        '
+        'guidCommentTextbox
+        '
+        Me.guidCommentTextbox.Location = New System.Drawing.Point(536, 32)
+        Me.guidCommentTextbox.Name = "guidCommentTextbox"
+        Me.guidCommentTextbox.Size = New System.Drawing.Size(224, 20)
+        Me.guidCommentTextbox.TabIndex = 7
+        '
+        'addGuidButton
+        '
+        Me.addGuidButton.Location = New System.Drawing.Point(660, 58)
+        Me.addGuidButton.Name = "addGuidButton"
+        Me.addGuidButton.Size = New System.Drawing.Size(100, 21)
+        Me.addGuidButton.TabIndex = 6
+        Me.addGuidButton.Text = "Добавить"
+        Me.addGuidButton.UseVisualStyleBackColor = True
+        '
+        'getCurrentGuidButton
+        '
+        Me.getCurrentGuidButton.Location = New System.Drawing.Point(536, 58)
+        Me.getCurrentGuidButton.Name = "getCurrentGuidButton"
+        Me.getCurrentGuidButton.Size = New System.Drawing.Size(100, 21)
+        Me.getCurrentGuidButton.TabIndex = 5
+        Me.getCurrentGuidButton.Text = "Текущий"
+        Me.getCurrentGuidButton.UseVisualStyleBackColor = True
+        '
+        'guidToAddTextbox
+        '
+        Me.guidToAddTextbox.Location = New System.Drawing.Point(536, 6)
+        Me.guidToAddTextbox.Name = "guidToAddTextbox"
+        Me.guidToAddTextbox.Size = New System.Drawing.Size(224, 20)
+        Me.guidToAddTextbox.TabIndex = 1
+        '
+        'identifiersList
+        '
+        Me.identifiersList.FormattingEnabled = True
+        Me.identifiersList.Location = New System.Drawing.Point(6, 6)
+        Me.identifiersList.Name = "identifiersList"
+        Me.identifiersList.Size = New System.Drawing.Size(521, 212)
+        Me.identifiersList.TabIndex = 0
         '
         'Label4
         '
@@ -500,11 +576,19 @@ Partial Class SimplSerialTool
         Me.НастройкиToolStripMenuItem.Size = New System.Drawing.Size(88, 20)
         Me.НастройкиToolStripMenuItem.Text = "Настройки..."
         '
+        'reqGuidTextbox
+        '
+        Me.reqGuidTextbox.Location = New System.Drawing.Point(117, 35)
+        Me.reqGuidTextbox.Name = "reqGuidTextbox"
+        Me.reqGuidTextbox.Size = New System.Drawing.Size(224, 20)
+        Me.reqGuidTextbox.TabIndex = 12
+        '
         'SimplSerialTool
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(781, 562)
+        Me.Controls.Add(Me.reqGuidTextbox)
         Me.Controls.Add(Me.DatagridLogWriter1)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.devguidTextbox)
@@ -519,6 +603,7 @@ Partial Class SimplSerialTool
         Me.Controls.Add(Me.reqAddressTextbox)
         Me.Controls.Add(Me.selfTestBustton)
         Me.Controls.Add(Me.MenuStrip1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "SimplSerialTool"
         Me.Text = "SimplSerialTool"
@@ -527,6 +612,8 @@ Partial Class SimplSerialTool
         Me.TabPage1.PerformLayout()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
+        Me.TabPage3.ResumeLayout(False)
+        Me.TabPage3.PerformLayout()
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
         Me.ResumeLayout(False)
@@ -579,5 +666,13 @@ Partial Class SimplSerialTool
     Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
     Friend WithEvents НастройкиToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Button2 As System.Windows.Forms.Button
+    Friend WithEvents TabPage3 As System.Windows.Forms.TabPage
+    Friend WithEvents identifiersList As System.Windows.Forms.ListBox
+    Friend WithEvents queryAllGuidsButton As System.Windows.Forms.Button
+    Friend WithEvents guidCommentTextbox As System.Windows.Forms.TextBox
+    Friend WithEvents addGuidButton As System.Windows.Forms.Button
+    Friend WithEvents getCurrentGuidButton As System.Windows.Forms.Button
+    Friend WithEvents guidToAddTextbox As System.Windows.Forms.TextBox
+    Friend WithEvents reqGuidTextbox As System.Windows.Forms.TextBox
 
 End Class

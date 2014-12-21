@@ -130,7 +130,7 @@ Public Class SimplSerialBus
         AddBytes(bytes, (crc >> 8) And 255, crc16)
         AddBytes(bytes, (crc) And 255, crc16)
         bytes.AddRange({&H98, 2})
-        bytes.Add(0)
+        '  bytes.Add(0)
         Return bytes.ToArray
     End Function
 

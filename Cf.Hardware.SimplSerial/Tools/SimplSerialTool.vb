@@ -18,6 +18,8 @@ Public Class SimplSerialTool
 
     Private Sub Tool_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         _logger.ConnectWriter(DatagridLogWriter1)
+        ShowGuidInfo()
+
     End Sub
 
     Private Sub connectTimer_Tick(sender As Object, e As EventArgs) Handles connectTimer.Tick
@@ -305,5 +307,66 @@ Public Class SimplSerialTool
                     portD.Text = Byte2String(pins.Port4.PinOutput)
                     pinD.Text = Byte2String(pins.Port4.PinInput)
                 End Sub)
+    End Sub
+
+    Private Sub getCurrentGuidButton_Click(sender As Object, e As EventArgs) Handles getCurrentGuidButton.Click
+        guidToAddTextbox.Text = devguidTextbox.Text
+        guidCommentTextbox.Text = devnameTextbox.Text
+    End Sub
+
+    Private Function GetGuidInfo(guid As String) As String
+        If IO.File.Exists(guid.ToLower + ".guid.txt") Then
+            Return IO.File.ReadAllText(guid.ToLower + ".guid.txt", System.Text.UTF8Encoding.UTF8)
+        Else
+            Return ""
+        End If
+    End Function
+
+    Private Sub SaveGuidInfo(guid As String, info As String)
+        If guid.Length <> 36 Then Return
+        IO.File.WriteAllText(guid.ToLower + ".guid.txt", info, System.Text.UTF8Encoding.UTF8)
+        ShowGuidInfo()
+    End Sub
+
+    Private Sub addGuidButton_Click(sender As Object, e As EventArgs) Handles addGuidButton.Click
+        If GetGuidInfo(guidToAddTextbox.Text) = "" Then SaveGuidInfo(guidToAddTextbox.Text, guidCommentTextbox.Text)
+    End Sub
+
+    Private Sub ShowGuidInfo()
+        Dim files = IO.Directory.GetFiles(".", "*.guid.txt")
+        identifiersList.Items.Clear()
+        For Each f In files
+            Dim guid = f.Split(IO.Path.DirectorySeparatorChar).Last().ToLower.Replace(".guid.txt", "")
+            If guid.Length = 36 Then
+                identifiersList.Items.Add(guid + " " + GetGuidInfo(guid))
+            End If
+        Next
+    End Sub
+
+    Private Sub TabPage3_Click(sender As Object, e As EventArgs) Handles TabPage3.Click
+
+    End Sub
+
+    Private Sub guidCommentTextbox_KeyDown(sender As Object, e As KeyEventArgs) Handles guidCommentTextbox.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            SaveGuidInfo(guidToAddTextbox.Text, guidCommentTextbox.Text)
+            ShowGuidInfo()
+        End If
+    End Sub
+
+    Private Sub guidCommentTextbox_TextChanged(sender As Object, e As EventArgs) Handles guidCommentTextbox.TextChanged
+
+    End Sub
+
+    Private Sub identifiersList_Click(sender As Object, e As EventArgs) Handles identifiersList.Click
+        Dim guid = identifiersList.Text.Split(" ")(0)
+        If guid.Length = 36 Then
+            guidToAddTextbox.Text = guid
+            guidCommentTextbox.Text = GetGuidInfo(guid)
+        End If
+    End Sub
+
+    Private Sub identifiersList_SelectedIndexChanged(sender As Object, e As EventArgs) Handles identifiersList.SelectedIndexChanged
+
     End Sub
 End Class

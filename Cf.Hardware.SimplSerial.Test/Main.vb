@@ -1,8 +1,16 @@
 ﻿Module Main
 
     Sub Main()
-        Dim sserial = New SimplSerialBus("COM6")
+        Dim sserial = New SimplSerialBus("COM12")
         sserial.SerialDevice.Connect()
+
+        Dim pins As New SimplSerialBus.Pins
+        pins.Port4.PinDirection = 16 + 8
+        pins.Port4.PinOutput = 8 '16-red, 8-green, 0-off
+        sserial.RequestPinsChange(0, pins)
+
+
+        Return
         Do
             Dim tt = sserial.Read
             If tt.ResponseState = ResponseState.ok Then
