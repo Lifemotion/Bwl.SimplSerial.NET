@@ -83,19 +83,19 @@ Public Class SimplSerialTool
     Private Sub selfTestBustton_Click(sender As Object, e As EventArgs) Handles selfTestBustton.Click
         Const maxsize = 128
 
-        TryThis(Sub()
-                    For n = 1 To 50
-                        Dim rnd As New Random
-                        Dim length = rnd.Next(1, maxsize)
-                        Dim list As New List(Of Byte)
-                        For i = 1 To length
-                            list.Add(rnd.Next(0, 255))
-                        Next
-                        _sserial.RequestTestDevice(0, list.ToArray)
-                        If n Mod 10 = 0 Then _logger.AddMessage("Проведено тестов: " + n.ToString)
-                        Application.DoEvents()
-                    Next
-                End Sub)
+		TryThis(Sub()
+					For n = 1 To 50
+						Dim rnd As New Random
+						Dim length = rnd.Next(1, maxsize)
+						Dim list As New List(Of Byte)
+						For i = 1 To length
+							list.Add(rnd.Next(0, 255))
+						Next
+						_sserial.RequestTestDevice(Val(_setAddressValueTextbox.Text), list.ToArray)
+						If n Mod 10 = 0 Then _logger.AddMessage("Проведено тестов: " + n.ToString)
+						Application.DoEvents()
+					Next
+				End Sub)
     End Sub
 
     Private Sub goToBootloader_Click(sender As Object, e As EventArgs) Handles goToBootloader.Click
@@ -105,54 +105,54 @@ Public Class SimplSerialTool
     End Sub
 
     Private Sub reqBootInfoButton_Click(sender As Object, e As EventArgs) Handles reqBootInfoButton.Click
-        TryThis(Sub()
-                    Dim info = _sserial.RequestWithRetries(New SSRequest(Val(reqAddressTextbox.Text), 100, {}), 1)
-                    If info.ResponseState = ResponseState.ok Then
-                        Dim spm = info.Data(16) * 256 + info.Data(17)
-                        Dim pgmsize = info.Data(18) * 256 * 256 + info.Data(19) * 256 + info.Data(10)
-                        Dim sign = info.Data(11) * 256 * 256 + info.Data(13) * 256 + info.Data(5)
+		TryThis(Sub()
+					Dim info = _sserial.RequestWithRetries(New SSRequest(Val(reqAddressTextbox.Text), 100, {}), 1)
+					If info.ResponseState = ResponseState.ok Then
+						Dim spm = info.Data(16) * 256 + info.Data(17)
+						Dim pgmsize = info.Data(18) * 256 * 256 + info.Data(19) * 256 + info.Data(10)
+						Dim sign = info.Data(11) * 256 * 256 + info.Data(13) * 256 + info.Data(5)
 
-                        spmSizeTextbox.Text = spm.ToString
-                        progmemSizeTextbox.Text = pgmsize.ToString.ToString
-                        signature.Text = Hex(sign)
-                    Else
-                        Throw New Exception(info.ResponseState.ToString)
-                    End If
-                End Sub)
+						spmSizeTextbox.Text = spm.ToString
+						progmemSizeTextbox.Text = pgmsize.ToString.ToString
+						signature.Text = Hex(sign)
+					Else
+						Throw New Exception(info.ResponseState.ToString)
+					End If
+				End Sub)
     End Sub
 
 
     Private Sub programMemButton_Click(sender As Object, e As EventArgs) Handles programMemButton.Click
-        TryThis(Sub()
-                    Dim fd As New OpenFileDialog()
-                    fd.Filter = "HEX|*.hex|BIN|*.bin"
-                    If fd.ShowDialog = Windows.Forms.DialogResult.OK Then
-                        Dim file = fd.FileName
+		TryThis(Sub()
+					Dim fd As New OpenFileDialog()
+					fd.Filter = "HEX|*.hex|BIN|*.bin"
+					If fd.ShowDialog = Windows.Forms.DialogResult.OK Then
+						Dim file = fd.FileName
 
-                        Dim bin As Byte()
-                        Dim ext = (file.ToLower.Substring(file.ToLower.Length - 4, 4))
-                        Select Case ext
-                            Case ".hex"
-                                Dim str = IO.File.ReadAllLines(file)
-                                Dim converter = New HexToBinConverter()
-                                bin = converter.Hex2Bin(str)
-                            Case ".bin"
-                                bin = IO.File.ReadAllBytes(file)
-                        End Select
+						Dim bin As Byte()
+						Dim ext = (file.ToLower.Substring(file.ToLower.Length - 4, 4))
+						Select Case ext
+							Case ".hex"
+								Dim str = IO.File.ReadAllLines(file)
+								Dim converter = New HexToBinConverter()
+								bin = converter.Hex2Bin(str)
+							Case ".bin"
+								bin = IO.File.ReadAllBytes(file)
+						End Select
 
-                        Dim spm = CInt(Val(spmSizeTextbox.Text))
-                        Dim size = CInt(Val(progmemSizeTextbox.Text)) - 1024 * 4
-                        If spm < 64 Then Throw New Exception("SPM = 0")
-                        ReDim Preserve bin(size - 1) '
+						Dim spm = CInt(Val(spmSizeTextbox.Text))
+						Dim size = CInt(Val(progmemSizeTextbox.Text)) - 1024 * 4
+						If spm < 64 Then Throw New Exception("SPM = 0")
+						ReDim Preserve bin(size - 1) '
 
-                        For i = 0 To bin.Length - 1 Step spm
-                            Dim page As Integer = Math.Floor(i \ spm)
-                            _logger.AddMessage("Program: " + i.ToString + "\" + size.ToString)
-                            Application.DoEvents()
-                            EraseFillWritePage(0, page, bin, i, spm)
-                        Next
-                    End If
-                End Sub)
+						For i = 0 To bin.Length - 1 Step spm
+							Dim page As Integer = Math.Floor(i \ spm)
+							_logger.AddMessage("Program: " + i.ToString + "\" + size.ToString)
+							Application.DoEvents()
+							EraseFillWritePage(Val(reqAddressTextbox.Text), page, bin, i, spm)
+						Next
+					End If
+				End Sub)
     End Sub
 
     Public Sub ErasePage(address As Integer, page As Integer)
@@ -184,7 +184,7 @@ Public Class SimplSerialTool
         If test.ResponseState <> ResponseState.ok Then Throw New Exception(test.ResponseState.ToString)
         If test.Result <> 107 Then Throw New Exception(test.ResponseState.ToString)
 
-        _logger.AddDebug("Write")
+		'_logger.AddDebug("Write")
     End Sub
 
     Public Sub EraseFillWritePage(address As Integer, page As Integer, data As Byte(), offset As Integer, size As Integer)
@@ -222,17 +222,17 @@ Public Class SimplSerialTool
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles eraseProgramButton.Click
-        TryThis(Sub()
-                    Dim spm = CInt(Val(spmSizeTextbox.Text))
-                    Dim size = CInt(Val(progmemSizeTextbox.Text)) - 1024 * 4
+		TryThis(Sub()
+					Dim spm = CInt(Val(spmSizeTextbox.Text))
+					Dim size = CInt(Val(progmemSizeTextbox.Text)) - 1024 * 4
 
-                    For i = 0 To size - 1 Step spm
-                        Dim page As Integer = Math.Floor(i \ spm)
-                        _logger.AddMessage("Erase: " + i.ToString + "\" + size.ToString)
-                        Application.DoEvents()
-                        ErasePage(0, page)
-                    Next
-                End Sub)
+					For i = 0 To size - 1 Step spm
+						Dim page As Integer = Math.Floor(i \ spm)
+						_logger.AddMessage("Erase: " + i.ToString + "\" + size.ToString)
+						Application.DoEvents()
+						ErasePage(Val(reqAddressTextbox.Text), page)
+					Next
+				End Sub)
     End Sub
 
 
@@ -360,4 +360,48 @@ Public Class SimplSerialTool
     Private Sub CodeExecutor1_Load(sender As Object, e As EventArgs) Handles CodeExecutor1.Load
 
     End Sub
+
+	Private Sub identifiersList_SelectedIndexChanged(sender As Object, e As EventArgs) Handles identifiersList.SelectedIndexChanged
+
+		If identifiersList.SelectedItem IsNot Nothing Then
+			Dim g = identifiersList.SelectedItem.ToString.Split(" ")(0)
+			Try
+
+				'If guid.Length = 36 Then
+				'	guidToAddTextbox.Text = guid
+				'	guidCommentTextbox.Text = GetGuidInfo(guid)
+				'End If
+
+				_sserial.RequestSetAddress(Guid.Parse(g), 255)
+				_logger.AddInformation(g + " _ good")
+
+			Catch ex As Exception
+				_logger.AddError(g + " _ " + ex.ToString)
+			End Try
+		End If
+	End Sub
+
+	Private Sub queryAllGuidsButton_Click(sender As Object, e As EventArgs) Handles queryAllGuidsButton.Click
+		Try
+			For Each it In identifiersList.Items
+				Dim g = it.ToString.Split(" ")(0)
+				Try
+
+					'If guid.Length = 36 Then
+					'	guidToAddTextbox.Text = guid
+					'	guidCommentTextbox.Text = GetGuidInfo(guid)
+					'End If
+
+					_sserial.RequestSetAddress(Guid.Parse(g), 255)
+					_logger.AddInformation(g + " _ good")
+
+				Catch ex As Exception
+
+				End Try
+			Next
+		Catch ex As Exception
+			_logger.AddError(ex.ToString)
+		End Try
+		
+	End Sub
 End Class
