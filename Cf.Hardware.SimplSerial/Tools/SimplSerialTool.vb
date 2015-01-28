@@ -25,14 +25,12 @@ Public Class SimplSerialTool
         ShowGuidInfo()
         CodeExecutor1.ReferencesList.Add("Bwl.Hardware.SimplSerial.Tool.exe")
         CodeExecutor1.ImportsList.Add("SimplSerialTool")
-        CodeExecutor1.Logger = _logger
+		CodeExecutor.Logger = _logger
         CodeExecutor1.SourceText += "Sub Main()" + vbCrLf
         CodeExecutor1.SourceText += "Dim result = SimplSerialTool.SSerial.Request(New SSRequest(0, 254, {}))" + vbCrLf
         CodeExecutor1.SourceText += "CodeExecutor.Output(result.ToString)" + vbCrLf
         CodeExecutor1.SourceText += "End Sub" + vbCrLf
-
-
-    End Sub
+	End Sub
 
     Private Sub connectTimer_Tick(sender As Object, e As EventArgs) Handles connectTimer.Tick
         If _sserial.IsConnected = False Then

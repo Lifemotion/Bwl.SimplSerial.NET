@@ -12,10 +12,10 @@
 
         Return
         Do
-            Dim tt = sserial.Read
-            If tt.ResponseState = ResponseState.ok Then
-                Stop
-            End If
+			' Dim tt = sserial.Read
+			If sserial.Read.ResponseState = ResponseState.ok Then
+				Stop
+			End If
         Loop
 
 
