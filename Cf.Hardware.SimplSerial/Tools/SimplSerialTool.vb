@@ -186,7 +186,8 @@ Public Class SimplSerialTool
     End Sub
 
     Public Sub EraseFillWritePage(address As Integer, page As Integer, data As Byte(), offset As Integer, size As Integer)
-        If size <> 128 Then Throw New Exception("EraseFillWritePage:  size <> 128")
+        If size <> 128 And size <> 64 Then Throw New Exception("EraseFillWritePage:  size <> 128, size <> 64")
+
         If data.Length < offset + size Then
             Throw New Exception("EraseFillWritePage: Data not enough")
 
