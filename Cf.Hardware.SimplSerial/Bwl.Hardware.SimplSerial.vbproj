@@ -58,6 +58,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -72,6 +73,12 @@
     <Import Include="System.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Tools\SerialSelector.Designer.vb">
+      <DependentUpon>SerialSelector.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\SerialSelector.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="SimplSerialBus.vb" />
     <Compile Include="SimplSerailManager.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -114,6 +121,9 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Tools\SerialSelector.resx">
+      <DependentUpon>SerialSelector.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Tools\CodeExecutor.resx">
       <DependentUpon>CodeExecutor.vb</DependentUpon>
     </EmbeddedResource>
@@ -131,6 +141,9 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

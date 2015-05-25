@@ -5,6 +5,8 @@ Public Class SimplSerialTool
     Private Shared _sserial As SimplSerialBus
     Private _logger As Logger
     Private _storage As SettingsStorage
+
+
     Public Shared ReadOnly Property SSerial As SimplSerialBus
         Get
             Return _sserial
@@ -16,15 +18,24 @@ Public Class SimplSerialTool
         _logger = logger
         _storage = storage
         If _sserial Is Nothing Then
-            _sserial = New SimplSerialBus(storage.CreateChildStorage("SimplSerial"))
+            _sserial = New SimplSerialBus(New SerialPort)
+            SerialSelector1.Enabled = True
+            SerialSelector1.AssociatedISerialDevice = _sserial.SerialDevice
         End If
+
+        Dim thread As New Threading.Thread(AddressOf SearchingThread)
+        thread.IsBackground = True
+        thread.Name = "Searching"
+        thread.Start()
+
     End Sub
 
     Private Sub Tool_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         _logger.ConnectWriter(DatagridLogWriter1)
         ShowGuidInfo()
-        CodeExecutor1.ReferencesList.Add("Bwl.Hardware.SimplSerial.Tool.exe")
-        CodeExecutor1.ImportsList.Add("SimplSerialTool")
+        'CodeExecutor1.ReferencesList.Add("Bwl.Hardware.SimplSerial.Tool.exe")
+
+        '  CodeExecutor1.ImportsList.Add("SimplSerialTool")
 		CodeExecutor.Logger = _logger
         CodeExecutor1.SourceText += "Sub Main()" + vbCrLf
         CodeExecutor1.SourceText += "Dim result = SimplSerialTool.SSerial.Request(New SSRequest(0, 254, {}))" + vbCrLf
@@ -263,15 +274,19 @@ Public Class SimplSerialTool
 
                     pins.Port1.PinDirection = String2Byte(ddrA.Text)
                     pins.Port1.PinOutput = String2Byte(portA.Text)
+                    pins.Port1.PinSetMask = 255
 
                     pins.Port2.PinDirection = String2Byte(ddrB.Text)
                     pins.Port2.PinOutput = String2Byte(portB.Text)
+                    pins.Port2.PinSetMask = 255
 
                     pins.Port3.PinDirection = String2Byte(ddrC.Text)
                     pins.Port3.PinOutput = String2Byte(portC.Text)
+                    pins.Port3.PinSetMask = 255
 
                     pins.Port4.PinDirection = String2Byte(ddrD.Text)
                     pins.Port4.PinOutput = String2Byte(portD.Text)
+                    pins.Port4.PinSetMask = 255
 
                     _sserial.RequestPinsChange(CInt(Val(reqAddressTextbox.Text)), pins)
 
@@ -403,4 +418,36 @@ Public Class SimplSerialTool
 		End Try
 		
 	End Sub
+
+    Private Sub searchDevicesButton_Click(sender As Object, e As EventArgs)
+        '   TryThis(Sub()
+        Dim info = _sserial.FindDevices
+
+        '          End Sub)
+
+    End Sub
+
+    Private Sub SearchingThread()
+        Dim rnd As New Random
+        Do
+            Try
+                If Me.Invoke(Function() _searchingEnabled.Checked) = True Then
+                    For i = 1 To 10
+                        Dim randi = rnd.Next
+                        Dim results = _sserial.FindDevices(randi)
+                        For Each result In results
+                            Dim str = result.ToString + " " + (randi And 255).ToString
+                            Dim lines As String() = Me.Invoke(Function() searchDevicesResult.Lines)
+                            If lines.Contains(str) = False Then Me.Invoke(Sub() searchDevicesResult.Text = searchDevicesResult.Text + vbCrLf + str)
+                        Next
+                    Next
+                End If
+            Catch ex As Exception
+
+            End Try
+
+            Threading.Thread.Sleep(100)
+        Loop
+    End Sub
+
 End Class
