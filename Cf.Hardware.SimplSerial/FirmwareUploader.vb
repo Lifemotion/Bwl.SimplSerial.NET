@@ -82,7 +82,7 @@ Public Class FirmwareUploader
             Dim pgmsize = info.Data(18) * 256 * 256 + info.Data(19) * 256 + info.Data(10)
             Dim sign = info.Data(11) * 256 * 256 + info.Data(13) * 256 + info.Data(5)
             SpmSize = spm
-            ProgmemSize = pgmsize
+            ProgmemSize = Math.Round(pgmsize / 1024) * 1024
             Signature = Hex(sign)
         Else
             Throw New Exception(info.ResponseState.ToString)
@@ -126,7 +126,6 @@ Public Class FirmwareUploader
 
         If data.Length < offset + size Then
             Throw New Exception("EraseFillWritePage: Data not enough")
-
         End If
 
         Dim buffer(size - 1) As Integer
