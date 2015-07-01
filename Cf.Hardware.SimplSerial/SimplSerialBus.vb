@@ -459,7 +459,7 @@ Public Class SimplSerialBus
     Public Function FindDevices() As DeviceInfo()
         Dim start() As Byte = {}
         Dim result = FindDevices(start, 0, 255)
-
+        Throw New NotImplementedException
     End Function
     Private Function FindDevices(start As Byte(), v1 As Byte, v2 As Byte) As Byte()()
         Debug.WriteLine(start.Length.ToString + ", " + v1.ToString + ", " + v2.ToString)

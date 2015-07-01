@@ -73,6 +73,19 @@
     <Import Include="System.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FirmwareUploader.vb" />
+    <Compile Include="Tools\ByteMonitor.Designer.vb">
+      <DependentUpon>ByteMonitor.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\ByteMonitor.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Tools\PortMonitor.Designer.vb">
+      <DependentUpon>PortMonitor.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\PortMonitor.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Tools\SerialSelector.Designer.vb">
       <DependentUpon>SerialSelector.vb</DependentUpon>
     </Compile>
@@ -80,7 +93,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="SimplSerialBus.vb" />
-    <Compile Include="SimplSerailManager.vb" />
+    <Compile Include="SimplSerialManager.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -113,6 +126,7 @@
     <Compile Include="Tools\SimplSerialTool.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Tools\Strings.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -120,6 +134,12 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\ByteMonitor.resx">
+      <DependentUpon>ByteMonitor.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\PortMonitor.resx">
+      <DependentUpon>PortMonitor.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\SerialSelector.resx">
       <DependentUpon>SerialSelector.vb</DependentUpon>

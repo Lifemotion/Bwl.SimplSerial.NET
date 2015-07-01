@@ -1,15 +1,47 @@
 ﻿Public Class SerialSelector
 
-    Private Sub SerialSelector_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Public Sub New()
+        InitializeComponent()
         ComboBox1.Items.AddRange(IO.Ports.SerialPort.GetPortNames)
         If ComboBox1.Items.Count > 0 Then ComboBox1.SelectedIndex = 0
     End Sub
 
+    Private Sub SerialSelector_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        
+    End Sub
+
     Public Property AssociatedISerialDevice As ISerialDevice
 
+    Public Property AllowPortChange As Boolean
+        Set(value As Boolean)
+            ComboBox1.Enabled = value
+        End Set
+        Get
+            Return ComboBox1.Enabled
+        End Get
+    End Property
 
-    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged, ComboBox1.SelectedValueChanged
+    Public Property AllowSpeedChange As Boolean
+        Set(value As Boolean)
+            ComboBox2.Enabled = value
+        End Set
+        Get
+            Return ComboBox2.Enabled
+        End Get
+    End Property
+
+    Private _suppressUpdate As Boolean
+    Public Sub LoadFromDevice()
         If AssociatedISerialDevice IsNot Nothing Then
+            _suppressUpdate = True
+            ComboBox1.Text = AssociatedISerialDevice.DeviceAddress
+            ComboBox2.Text = AssociatedISerialDevice.DeviceSpeed.ToString
+            _suppressUpdate = False
+        End If
+    End Sub
+
+    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.TextChanged, ComboBox2.TextChanged
+        If AssociatedISerialDevice IsNot Nothing And Not _suppressUpdate Then
             With AssociatedISerialDevice
                 Try
                     Dim wasConnected = .IsConnected
@@ -29,4 +61,5 @@
         ComboBox1.Items.AddRange(IO.Ports.SerialPort.GetPortNames)
         ComboBox1.Text = text
     End Sub
+
 End Class
