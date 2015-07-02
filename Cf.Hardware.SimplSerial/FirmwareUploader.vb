@@ -40,7 +40,7 @@ Public Class FirmwareUploader
 
     Public Shared Function LoadFirmwareFromFile(file As String) As Byte()
         Dim bin As Byte()
-        Dim ext = (file.ToLower.Substring(file.ToLower.Length - 4, 4))
+        Dim ext = IO.Path.GetExtension(file).ToLower
         Select Case ext
             Case ".hex"
                 Dim str = IO.File.ReadAllLines(file)
@@ -65,7 +65,9 @@ Public Class FirmwareUploader
         Dim spm = SpmSize
         Dim size = ProgmemSize - 1024 * 4
         If spm < 64 Then Throw New Exception("SPM = 0")
-        ReDim Preserve bin(size - 1) '
+
+        Dim binsize As Integer = Math.Ceiling(bin.Length / spm) * spm
+        ReDim Preserve bin(binsize - 1) '
 
         For i = 0 To bin.Length - 1 Step spm
             Dim page As Integer = Math.Floor(i \ spm)
@@ -82,7 +84,7 @@ Public Class FirmwareUploader
             Dim pgmsize = info.Data(18) * 256 * 256 + info.Data(19) * 256 + info.Data(10)
             Dim sign = info.Data(11) * 256 * 256 + info.Data(13) * 256 + info.Data(5)
             SpmSize = spm
-            ProgmemSize = Math.Round(pgmsize / 1024) * 1024
+            ProgmemSize = Math.Floor(pgmsize / SpmSize) * SpmSize
             Signature = Hex(sign)
         Else
             Throw New Exception(info.ResponseState.ToString)
@@ -117,32 +119,22 @@ Public Class FirmwareUploader
         Dim test = _sserial.RequestWithRetries(New SSRequest(address, 106, {page0, page1}), 50)
         If test.ResponseState <> ResponseState.ok Then Throw New Exception(test.ResponseState.ToString)
         If test.Result <> 107 Then Throw New Exception(test.ResponseState.ToString)
-
-        '_logger.AddDebug("Write")
     End Sub
 
     Public Sub EraseFillWritePage(address As Integer, page As Integer, data As Byte(), offset As Integer, size As Integer)
         If size <> 128 And size <> 64 Then Throw New Exception("EraseFillWritePage:  size <> 128, size <> 64")
-
-        If data.Length < offset + size Then
-            Throw New Exception("EraseFillWritePage: Data not enough")
-        End If
+        If data.Length < offset + size Then Throw New Exception("EraseFillWritePage: Data not enough")
 
         Dim buffer(size - 1) As Integer
-        Dim datapresent As Boolean
         For i = 0 To buffer.Length - 1
             buffer(i) = data(offset + i)
-            ' buffer(i) = i
-            If buffer(i) <> 0 And buffer(i) <> 255 Then datapresent = True
         Next
-        If datapresent Then
-            ErasePage(address, page)
 
-            For i = 0 To size - 1 Step 8
-                FillPageBuffer(address, page, i, {buffer(i), buffer(i + 1), buffer(i + 2), buffer(i + 3), buffer(i + 4), buffer(i + 5), buffer(i + 6), buffer(i + 7)})
-            Next
-            WritePage(address, page)
-        End If
+        ErasePage(address, page)
+        For i = 0 To size - 1 Step 8
+            FillPageBuffer(address, page, i, {buffer(i), buffer(i + 1), buffer(i + 2), buffer(i + 3), buffer(i + 4), buffer(i + 5), buffer(i + 6), buffer(i + 7)})
+        Next
+        WritePage(address, page)
     End Sub
 
 End Class
