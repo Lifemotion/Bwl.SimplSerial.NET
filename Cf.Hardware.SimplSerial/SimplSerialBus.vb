@@ -1,6 +1,4 @@
 ﻿Imports Bwl.Hardware.Serial
-Imports System.Numerics
-
 ''' <summary>
 ''' Реализация базового интерфейса шины SimplSerial.
 ''' </summary>
@@ -199,7 +197,7 @@ Public Class SimplSerialBus
                         End If
                         lastData = currbyte
                     Else
-                        Threading.Thread.Sleep(10)
+                        Threading.Thread.Sleep(TimeSpan.FromTicks(1))
                     End If
                 Loop
 
@@ -429,14 +427,17 @@ Public Class SimplSerialBus
         Dim ascii = Text.ASCIIEncoding.ASCII
         Dim info As New DeviceInfo With {.Response = result}
         If result.ResponseState = ResponseState.ok Then
-            If result.Result = 0 And result.Data.Length >= 38 Then
+            If result.Result = 0 And result.Data.Length >= 54 Then
                 Dim arr(15) As Byte
                 For i = 0 To 15
                     arr(i) = result.Data(i)
                 Next
+                For i = 16 To 54
+                    If result.Data(i) < &H20 Or result.Data(i) > &H7E Then result.Data(i) = &H20
+                Next
                 info.DeviceGuid = New Guid(arr)
-                info.DeviceName = ascii.GetString(result.Data, 16, 32)
-                info.DeviceDate = ascii.GetString(result.Data, 48, 6)
+                info.DeviceName = ascii.GetString(result.Data, 16, 32).Trim
+                info.DeviceDate = ascii.GetString(result.Data, 48, 6).Trim
                 Return info
             End If
         End If
@@ -444,77 +445,34 @@ Public Class SimplSerialBus
     End Function
 
     Public Function FindDevices(seed As Integer) As Guid()
-        Dim result = Request(New SSRequest(0, 255, {0, seed And 255}))
-        If result.ResponseState = ResponseState.ok Then
-            Dim arr(15) As Byte
-            For i = 0 To 15
-                arr(i) = result.Data(i)
-            Next
-            Dim sg = New Guid(arr)
-            Return {sg}
-        End If
-        Return {}
+        Dim bytes = BitConverter.GetBytes(seed)
+        Send(New SSRequest(0, 255, {0, bytes(0), bytes(1), bytes(2), bytes(3)}))
+        Debug.WriteLine(seed.ToString)
+        Dim timeout = 1
+        Dim start = Now
+        Dim list As New List(Of Guid)
+        Do While (Now - start).TotalSeconds < timeout
+            Dim result = Read()
+            Try
+                If result IsNot Nothing AndAlso result.ResponseState = ResponseState.ok Then
+                    Dim arr(15) As Byte
+                    For i = 0 To 15
+                        arr(i) = result.Data(i)
+                    Next
+                    Dim sg = New Guid(arr)
+                    If list.Contains(sg) = False Then list.Add(sg)
+                End If
+            Catch ex As Exception
+
+            End Try
+        Loop
+        Return list.ToArray
     End Function
 
-    Public Function FindDevices() As DeviceInfo()
-        Dim start() As Byte = {}
-        Dim result = FindDevices(start, 0, 255)
-        Throw New NotImplementedException
-    End Function
-    Private Function FindDevices(start As Byte(), v1 As Byte, v2 As Byte) As Byte()()
-        Debug.WriteLine(start.Length.ToString + ", " + v1.ToString + ", " + v2.ToString)
-        If FindDevicesRequest(start, v1, v2, 3, 100) Then
-            Dim startNew As New List(Of Byte)(start)
-            If v1 = v2 Then
-                startNew.Add(v1)
-                If start.Length = 15 Then
-                    Return {startNew.ToArray()}
-                Else
-                    Return FindDevices(startNew.ToArray(), 0, 255)
-                End If
-            Else
-                If v2 - v1 > 1 Then
-                    Dim divide = CInt(Math.Floor(CDbl(v1) + CDbl(v2)) / 2)
-                    Dim list As New List(Of Byte())
-                    list.AddRange(FindDevices(start, v1, divide))
-                    list.AddRange(FindDevices(start, divide + 1, v2))
-                    Return list.ToArray
-                Else
-                    Dim list As New List(Of Byte())
-                    list.AddRange(FindDevices(start, v1, v1))
-                    list.AddRange(FindDevices(start, v2, v2))
-                    Return list.ToArray
-                End If
-            End If
-        Else
-            Return {}
-        End If
-    End Function
-
-    Private Function FindDevicesRequest(start As Byte(), v1 As Byte, v2 As Byte, repeats As Byte, timeout As Double) As Boolean
-        Dim list As New List(Of Byte)
-        list.AddRange(start)
-        list.Add(v1)
-        Do While list.Count < 16 : list.Add(0) : Loop
-        list.AddRange(start)
-        list.Add(v2)
-        Do While list.Count < 32 : list.Add(255) : Loop
-        Dim marker As Byte = 1
-        list.Add(marker)
-        For i = 1 To repeats
-            Do While _serial.ReceivedBufferCount > 0
-                _serial.Read()
-            Loop
-            Send(New SSRequest(0, 249, list.ToArray))
-            Dim time = Now
-            Dim read As Byte
-            Do While (Now - time).TotalMilliseconds < timeout And read = 0
-                If _serial.ReceivedBufferCount > 0 Then read = _serial.Read
-                Threading.Thread.Sleep(1)
-            Loop
-            If read > 0 Then Return True
-        Next
-        Return False
+    Private _rnd As New Random
+    Public Function FindDevices() As Guid()
+        Dim randi = _rnd.Next
+        Return FindDevices(randi)
     End Function
 
 End Class

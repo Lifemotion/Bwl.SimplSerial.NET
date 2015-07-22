@@ -306,13 +306,15 @@ Public Class SimplSerialTool
         Dim rnd As New Random
         Do
             Try
-                If Me.Invoke(Function() _searchingEnabled.Checked) = True Then
+
+                If Me.Created AndAlso Me.Invoke(Function() _searchingEnabled.Checked) = True Then
                     For i = 1 To 10
-                        Dim randi = rnd.Next
-                        Dim results = _sserial.FindDevices(randi)
+
+                        Dim results = _sserial.FindDevices()
                         For Each result In results
-                            Dim str = result.ToString + " " + (randi And 255).ToString
+                            Dim str = result.ToString
                             Dim lines As String() = Me.Invoke(Function() searchDevicesResult.Lines)
+
                             If lines.Contains(str) = False Then Me.Invoke(Sub() searchDevicesResult.Text = searchDevicesResult.Text + vbCrLf + str)
                         Next
                     Next
@@ -327,5 +329,33 @@ Public Class SimplSerialTool
 
     Private Sub selectFirmwarePathButton_Click(sender As Object, e As EventArgs) Handles selectFirmwarePathButton.Click
         firmwarePathTextbox.Text = FirmwareUploader.SelectFirmwareFile
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        If _searchingEnabled.Checked = True Then Return
+        searchDevicesResult.Enabled = False
+        Dim lines As String() = searchDevicesResult.Lines
+        Dim text As String = ""
+        For Each line In lines
+            Dim split = (line + "   ").Split(" ")
+            For i = 1 To 3
+            Try
+                    Dim id = Guid.Parse(split(0))
+                _sserial.RequestSetAddress(id, 255)
+                Dim info = _sserial.RequestDeviceInfo(255)
+                If info.DeviceGuid = id Then
+                    split(1) = info.DeviceName.Trim
+                    split(2) = info.DeviceDate.Trim
+                End If
+            Catch ex As Exception
+                End Try
+
+            Next
+            Dim line1 = (String.Join(" "c, split)).Trim
+            text = text + line1 + vbCrLf
+            searchDevicesResult.Text = text
+            Application.DoEvents()
+        Next
+        searchDevicesResult.Enabled = True
     End Sub
 End Class

@@ -16,6 +16,11 @@ Public Class FirmwareUploader
         _logger = logger
     End Sub
 
+    Public Sub New(sserial As SimplSerialBus)
+        _sserial = sserial
+        _logger = New Logger
+    End Sub
+
     Public Property SpmSize As Integer
     Public Property ProgmemSize As Integer
     Public Property Signature As String = ""
