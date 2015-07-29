@@ -88,6 +88,7 @@ Partial Class SimplSerialTool
         Me.Button2 = New System.Windows.Forms.Button()
         Me.bootstateTextbox = New System.Windows.Forms.TextBox()
         Me.Label18 = New System.Windows.Forms.Label()
+        Me.addInfoTextbox = New System.Windows.Forms.TextBox()
         Me.SerialSelector1 = New Bwl.Hardware.SimplSerial.SerialSelector()
         Me.PortMonitor4 = New Bwl.Hardware.SimplSerial.PortMonitor()
         Me.PortMonitor3 = New Bwl.Hardware.SimplSerial.PortMonitor()
@@ -115,7 +116,7 @@ Partial Class SimplSerialTool
         Me.TabControl1.Location = New System.Drawing.Point(2, 151)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(822, 277)
+        Me.TabControl1.Size = New System.Drawing.Size(865, 277)
         Me.TabControl1.TabIndex = 2
         '
         'TabPage1
@@ -139,7 +140,7 @@ Partial Class SimplSerialTool
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(814, 251)
+        Me.TabPage1.Size = New System.Drawing.Size(857, 251)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Основное"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -538,7 +539,7 @@ Partial Class SimplSerialTool
         '
         Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(683, 106)
+        Me.Label4.Location = New System.Drawing.Point(682, 105)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(41, 13)
         Me.Label4.TabIndex = 9
@@ -547,17 +548,17 @@ Partial Class SimplSerialTool
         'devAddressTextbox
         '
         Me.devAddressTextbox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.devAddressTextbox.Location = New System.Drawing.Point(727, 99)
+        Me.devAddressTextbox.Location = New System.Drawing.Point(726, 99)
         Me.devAddressTextbox.Name = "devAddressTextbox"
         Me.devAddressTextbox.ReadOnly = True
-        Me.devAddressTextbox.Size = New System.Drawing.Size(92, 20)
+        Me.devAddressTextbox.Size = New System.Drawing.Size(129, 20)
         Me.devAddressTextbox.TabIndex = 8
         '
         'Label3
         '
         Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(486, 106)
+        Me.Label3.Location = New System.Drawing.Point(485, 106)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(89, 13)
         Me.Label3.TabIndex = 7
@@ -566,7 +567,7 @@ Partial Class SimplSerialTool
         'devDateTextbox
         '
         Me.devDateTextbox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.devDateTextbox.Location = New System.Drawing.Point(581, 99)
+        Me.devDateTextbox.Location = New System.Drawing.Point(580, 99)
         Me.devDateTextbox.Name = "devDateTextbox"
         Me.devDateTextbox.ReadOnly = True
         Me.devDateTextbox.Size = New System.Drawing.Size(101, 20)
@@ -603,7 +604,7 @@ Partial Class SimplSerialTool
         '
         Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(486, 79)
+        Me.Label2.Location = New System.Drawing.Point(485, 79)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(90, 13)
         Me.Label2.TabIndex = 3
@@ -612,17 +613,17 @@ Partial Class SimplSerialTool
         'devguidTextbox
         '
         Me.devguidTextbox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.devguidTextbox.Location = New System.Drawing.Point(581, 72)
+        Me.devguidTextbox.Location = New System.Drawing.Point(580, 72)
         Me.devguidTextbox.Name = "devguidTextbox"
         Me.devguidTextbox.ReadOnly = True
-        Me.devguidTextbox.Size = New System.Drawing.Size(238, 20)
+        Me.devguidTextbox.Size = New System.Drawing.Size(275, 20)
         Me.devguidTextbox.TabIndex = 2
         '
         'Label1
         '
         Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(486, 52)
+        Me.Label1.Location = New System.Drawing.Point(485, 52)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(92, 13)
         Me.Label1.TabIndex = 1
@@ -631,10 +632,10 @@ Partial Class SimplSerialTool
         'devnameTextbox
         '
         Me.devnameTextbox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.devnameTextbox.Location = New System.Drawing.Point(581, 45)
+        Me.devnameTextbox.Location = New System.Drawing.Point(580, 45)
         Me.devnameTextbox.Name = "devnameTextbox"
         Me.devnameTextbox.ReadOnly = True
-        Me.devnameTextbox.Size = New System.Drawing.Size(238, 20)
+        Me.devnameTextbox.Size = New System.Drawing.Size(153, 20)
         Me.devnameTextbox.TabIndex = 0
         '
         'connectTimer
@@ -657,7 +658,7 @@ Partial Class SimplSerialTool
         Me.DatagridLogWriter1.ShowInformation = True
         Me.DatagridLogWriter1.ShowMessages = True
         Me.DatagridLogWriter1.ShowWarnings = True
-        Me.DatagridLogWriter1.Size = New System.Drawing.Size(822, 208)
+        Me.DatagridLogWriter1.Size = New System.Drawing.Size(865, 208)
         Me.DatagridLogWriter1.TabIndex = 10
         '
         'MenuStrip1
@@ -665,7 +666,7 @@ Partial Class SimplSerialTool
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.НастройкиToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(824, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(867, 24)
         Me.MenuStrip1.TabIndex = 11
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -714,7 +715,7 @@ Partial Class SimplSerialTool
         '
         Me.Label12.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(486, 27)
+        Me.Label12.Location = New System.Drawing.Point(485, 27)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(151, 13)
         Me.Label12.TabIndex = 24
@@ -732,21 +733,30 @@ Partial Class SimplSerialTool
         'bootstateTextbox
         '
         Me.bootstateTextbox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.bootstateTextbox.Location = New System.Drawing.Point(581, 126)
+        Me.bootstateTextbox.Location = New System.Drawing.Point(580, 126)
         Me.bootstateTextbox.Name = "bootstateTextbox"
         Me.bootstateTextbox.ReadOnly = True
-        Me.bootstateTextbox.Size = New System.Drawing.Size(238, 20)
+        Me.bootstateTextbox.Size = New System.Drawing.Size(275, 20)
         Me.bootstateTextbox.TabIndex = 26
         '
         'Label18
         '
         Me.Label18.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label18.AutoSize = True
-        Me.Label18.Location = New System.Drawing.Point(486, 133)
+        Me.Label18.Location = New System.Drawing.Point(485, 133)
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(62, 13)
         Me.Label18.TabIndex = 27
         Me.Label18.Text = "Загрузчик:"
+        '
+        'addInfoTextbox
+        '
+        Me.addInfoTextbox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.addInfoTextbox.Location = New System.Drawing.Point(739, 45)
+        Me.addInfoTextbox.Name = "addInfoTextbox"
+        Me.addInfoTextbox.ReadOnly = True
+        Me.addInfoTextbox.Size = New System.Drawing.Size(116, 20)
+        Me.addInfoTextbox.TabIndex = 28
         '
         'SerialSelector1
         '
@@ -809,7 +819,8 @@ Partial Class SimplSerialTool
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(824, 638)
+        Me.ClientSize = New System.Drawing.Size(867, 638)
+        Me.Controls.Add(Me.addInfoTextbox)
         Me.Controls.Add(Me.bootstateTextbox)
         Me.Controls.Add(Me.Label18)
         Me.Controls.Add(Me.Button2)
@@ -924,5 +935,6 @@ Partial Class SimplSerialTool
     Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents bootstateTextbox As System.Windows.Forms.TextBox
     Friend WithEvents Label18 As System.Windows.Forms.Label
+    Friend WithEvents addInfoTextbox As System.Windows.Forms.TextBox
 
 End Class

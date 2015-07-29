@@ -92,6 +92,7 @@ Public Class SimplSerialTool
                                 bootstateTextbox.Text += "загрузчик не найден"
                             End If
                         End If
+                        addInfoTextbox.Text = "SimplSerial: " + info.ProtocolVersion
                     Else
                         Throw New Exception(info.Response.ResponseState.ToString)
                     End If

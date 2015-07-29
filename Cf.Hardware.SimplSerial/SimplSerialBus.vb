@@ -521,8 +521,9 @@ Public Class SimplSerialBus
                 info.DeviceGuid = New Guid(arr)
                 info.DeviceName = ascii.GetString(result.Data, 16, 32).Trim
                 info.DeviceDate = ascii.GetString(result.Data, 48, 6).Trim
-                If result.Data.Length >= 70 Then
+                If result.Data.Length >= 86 Then
                     info.BootName = ascii.GetString(result.Data, 54, 16).Trim
+                    info.ProtocolVersion = ascii.GetString(result.Data, 70, 6).Trim
                 End If
                 If info.DeviceName.StartsWith("BwlBoot") Then
                     info.BootloaderMode = True
