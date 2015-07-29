@@ -83,7 +83,7 @@ Public Class FirmwareUploader
     End Sub
 
     Public Sub RequestBootInfo(address As Integer)
-        Dim info = _sserial.RequestWithRetries(New SSRequest(address, 100, {}), 1)
+        Dim info = _sserial.Request(New SSRequest(address, 100, {}))
         If info.ResponseState = ResponseState.ok Then
             Dim spm = info.Data(16) * 256 + info.Data(17)
             Dim pgmsize = info.Data(18) * 256 * 256 + info.Data(19) * 256 + info.Data(10)
@@ -99,7 +99,7 @@ Public Class FirmwareUploader
     Public Sub ErasePage(address As Integer, page As Integer)
         Dim page0 = (page >> 8) And 255
         Dim page1 = page Mod 256
-        Dim test = _sserial.RequestWithRetries(New SSRequest(address, 102, {page0, page1, 0}), 50)
+        Dim test = _sserial.Request(New SSRequest(address, 102, {page0, page1, 0}), 50)
         If test.ResponseState <> ResponseState.ok Then Throw New Exception(test.ResponseState.ToString)
         If test.Result <> 103 Then Throw New Exception(test.ResponseState.ToString)
         _logger.AddDebug("ErasePage")
@@ -111,7 +111,7 @@ Public Class FirmwareUploader
         Dim page1 = page Mod 256
         Dim offset0 = (offset >> 8) And 255
         Dim offset1 = offset Mod 256
-        Dim test = _sserial.RequestWithRetries(New SSRequest(address, 104, {page0, page1, offset0, offset1, bytes(0), bytes(1), bytes(2), bytes(3), bytes(4), bytes(5), bytes(6), bytes(7)}), 50)
+        Dim test = _sserial.Request(New SSRequest(address, 104, {page0, page1, offset0, offset1, bytes(0), bytes(1), bytes(2), bytes(3), bytes(4), bytes(5), bytes(6), bytes(7)}), 50)
         If test.ResponseState <> ResponseState.ok Then Throw New Exception(test.ResponseState.ToString)
         If test.Result <> 105 Then Throw New Exception(test.ResponseState.ToString)
 
@@ -121,7 +121,7 @@ Public Class FirmwareUploader
     Public Sub WritePage(address As Integer, page As Integer)
         Dim page0 = (page >> 8) And 255
         Dim page1 = page Mod 256
-        Dim test = _sserial.RequestWithRetries(New SSRequest(address, 106, {page0, page1}), 50)
+        Dim test = _sserial.Request(New SSRequest(address, 106, {page0, page1}), 50)
         If test.ResponseState <> ResponseState.ok Then Throw New Exception(test.ResponseState.ToString)
         If test.Result <> 107 Then Throw New Exception(test.ResponseState.ToString)
     End Sub

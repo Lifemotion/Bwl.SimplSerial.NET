@@ -64,7 +64,10 @@ Public Class SimplSerialBus
         _deviceSpeedSetting = storage.CreateIntegerSetting("DeviceSpeed", 9600, , "9600 - нормальная, 1200 - медленная, 115200 - быстрая")
         _serial = New FastSerialPort
         _serial.AutoReadBytes = False
+    End Sub
 
+    Public Sub New(Optional serialPortIndex As Integer = 0)
+        Me.New(System.IO.Ports.SerialPort.GetPortNames(serialPortIndex))
     End Sub
 
     Public Sub New(serialPortName As String)
@@ -215,68 +218,133 @@ Public Class SimplSerialBus
         Public Property PinInput As Byte
         Public Property PinOutput As Byte
         Public Property PinSetMask As Byte
+        Public Sub SetPort(direction As Byte, output As Byte, mask As Byte)
+            PinDirection = direction
+            PinOutput = output
+            PinSetMask = mask
+            PinInput = 0
+        End Sub
+
+        Public Function GetPin(bit As Integer) As Pin
+            If bit < 0 Or bit > 7 Then Throw New ArgumentException("Bit must be 0..7", "bit")
+            Dim pin As New Pin
+            pin.Direction = PinDirection And (1 << bit)
+            pin.Input = PinInput And (1 << bit)
+            pin.Output = PinOutput And (1 << bit)
+            Return pin
+        End Function
+
+        Public Sub SetPin(bit As Integer, direction As Boolean, output As Boolean)
+            SetPin(bit, New Pin(direction, output))
+        End Sub
+
+        Public Sub SetPin(bit As Integer, pin As Pin)
+            PinDirection = (PinDirection And Not (1 << bit))
+            If pin.Direction Then PinDirection = (PinDirection Or (1 << bit))
+
+            PinOutput = (PinOutput And Not (1 << bit))
+            If pin.Output Then PinOutput = (PinOutput Or (1 << bit))
+
+            PinSetMask = (PinSetMask Or (1 << bit))
+        End Sub
     End Class
 
-    Public Class Pins
-        Public Property Port1 As New Port
-        Public Property Port2 As New Port
-        Public Property Port3 As New Port
-        Public Property Port4 As New Port
+    Public Class Ports
+        Public Property PortA As New Port
+        Public Property PortB As New Port
+        Public Property PortC As New Port
+        Public Property PortD As New Port
+        Public Function GetPort(portIndex As Integer) As Port
+            If portIndex = 0 Then Return PortA
+            If portIndex = 1 Then Return PortB
+            If portIndex = 2 Then Return PortC
+            If portIndex = 3 Then Return PortD
+            Throw New ArgumentException("PortIndex must be 0..3", "portIndex")
+        End Function
     End Class
 
-    Public Function RequestPinsRead(address As Integer) As Pins
-        Dim pins As New Pins
+    Public Class Pin
+        Public Property Output As Boolean
+        Public Property Input As Boolean
+        Public Property Direction As Boolean
+        Public Sub New()
+
+        End Sub
+        Public Sub New(direction As Boolean, output As Boolean)
+            Me.Direction = direction
+            Me.Output = output
+        End Sub
+    End Class
+
+    Public Sub RequestPinSet(address As Integer, portIndex As Integer, pinIndex As Integer, direction As Boolean, output As Boolean)
+        RequestPinSet(address, portIndex, pinIndex, New Pin(direction, output))
+    End Sub
+
+    Public Sub RequestPinSet(address As Integer, portIndex As Integer, pinIndex As Integer, pin As Pin)
+        Dim ports As New Ports
+        ports.GetPort(portIndex).SetPin(pinIndex, pin)
+        RequestPortsChange(address, ports)
+    End Sub
+
+    Public Function RequestPortsRead(address As Integer) As Ports
+        Dim pins As New Ports
         Dim bytes(2) As Byte
         bytes(0) = 2
         Dim req As New SSRequest(address, 250, bytes)
-        Dim resp = RequestWithRetries(req, 10)
+        Dim resp = Request(req, RequestRetriesDefault)
         If resp.ResponseState <> ResponseState.ok Then Throw New Exception(resp.ResponseState.ToString)
 
-        pins.Port1.PinDirection = (resp.Data(1))
-        pins.Port1.PinOutput = (resp.Data(2))
-        pins.Port1.PinInput = (resp.Data(3))
+        pins.PortA.PinDirection = (resp.Data(1))
+        pins.PortA.PinOutput = (resp.Data(2))
+        pins.PortA.PinInput = (resp.Data(3))
+        pins.PortA.PinSetMask = 0
 
-        pins.Port2.PinDirection = (resp.Data(4))
-        pins.Port2.PinOutput = (resp.Data(5))
-        pins.Port2.PinInput = (resp.Data(6))
+        pins.PortB.PinDirection = (resp.Data(4))
+        pins.PortB.PinOutput = (resp.Data(5))
+        pins.PortB.PinInput = (resp.Data(6))
+        pins.PortB.PinSetMask = 0
 
-        pins.Port3.PinDirection = (resp.Data(7))
-        pins.Port3.PinOutput = (resp.Data(8))
-        pins.Port3.PinInput = (resp.Data(9))
+        pins.PortC.PinDirection = (resp.Data(7))
+        pins.PortC.PinOutput = (resp.Data(8))
+        pins.PortC.PinInput = (resp.Data(9))
+        pins.PortC.PinSetMask = 0
 
-        pins.Port4.PinDirection = (resp.Data(10))
-        pins.Port4.PinOutput = (resp.Data(11))
-        pins.Port4.PinInput = (resp.Data(12))
+        pins.PortD.PinDirection = (resp.Data(10))
+        pins.PortD.PinOutput = (resp.Data(11))
+        pins.PortD.PinInput = (resp.Data(12))
+        pins.PortD.PinSetMask = 0
 
         Return pins
     End Function
 
-    Public Sub RequestPinsChange(address As Integer, pins As Pins)
+    Public Sub RequestPortsChange(address As Integer, pins As Ports)
         Dim bytes(13) As Byte
         bytes(0) = 1
 
-        bytes(1) = pins.Port1.PinDirection
-        bytes(2) = pins.Port1.PinOutput
-        bytes(3) = pins.Port1.PinSetMask
+        bytes(1) = pins.PortA.PinDirection
+        bytes(2) = pins.PortA.PinOutput
+        bytes(3) = pins.PortA.PinSetMask
 
-        bytes(4) = pins.Port2.PinDirection
-        bytes(5) = pins.Port2.PinOutput
-        bytes(6) = pins.Port2.PinSetMask
+        bytes(4) = pins.PortB.PinDirection
+        bytes(5) = pins.PortB.PinOutput
+        bytes(6) = pins.PortB.PinSetMask
 
-        bytes(7) = pins.Port3.PinDirection
-        bytes(8) = pins.Port3.PinOutput
-        bytes(9) = pins.Port3.PinSetMask
+        bytes(7) = pins.PortC.PinDirection
+        bytes(8) = pins.PortC.PinOutput
+        bytes(9) = pins.PortC.PinSetMask
 
-        bytes(10) = pins.Port4.PinDirection
-        bytes(11) = pins.Port4.PinOutput
-        bytes(12) = pins.Port4.PinSetMask
+        bytes(10) = pins.PortD.PinDirection
+        bytes(11) = pins.PortD.PinOutput
+        bytes(12) = pins.PortD.PinSetMask
 
         Dim req As New SSRequest(address, 250, bytes)
-        Dim resp = Request(req)
+        Dim resp = Request(req, RequestRetriesDefault)
         If resp.ResponseState <> ResponseState.ok Then Throw New Exception(resp.ResponseState.ToString)
     End Sub
 
-    Public Function RequestWithRetries(requestPacket As SSRequest, retries As Integer) As SSResponse
+    Public Property RequestRetriesDefault = 1
+
+    Function Request(requestPacket As SSRequest, retries As Integer) As SSResponse
         For i = 1 To retries - 1
             Dim result = Request(requestPacket)
             If result.ResponseState = ResponseState.ok Then Return result
@@ -376,7 +444,7 @@ Public Class SimplSerialBus
     Public Sub RequestTestDevice(address As Integer, testData As Byte())
         If testData Is Nothing OrElse testData.Length < 1 Then Throw New Exception("Data must be 1 byte at least")
         Dim request As New SSRequest(address, 252, testData)
-        Dim response = Me.Request(request)
+        Dim response = Me.Request(request, RequestRetriesDefault)
         If response.ResponseState = ResponseState.ok Then
             If response.Result <> request.Data(0) Then Throw New Exception("RequestTestDevice: error response")
             If response.Data.Length + 1 <> request.Data.Length Then Throw New Exception("RequestTestDevice: error data length")
@@ -390,6 +458,15 @@ Public Class SimplSerialBus
         End If
     End Sub
 
+    Public Sub RequestTestDevice(address As Integer, maxLength As Integer)
+        Dim length = _rnd.Next(1, maxLength)
+        Dim testdata As New List(Of Byte)
+        For i = 1 To length
+            testdata.Add(_rnd.Next(0, 255))
+        Next
+        RequestTestDevice(address, testdata.ToArray)
+    End Sub
+
     Public Function UInt16ToBytes(uint As UInt16) As Byte()
         Dim result(1) As Byte
         result(0) = (uint >> 8) And 255
@@ -401,18 +478,24 @@ Public Class SimplSerialBus
         Dim bytes = New List(Of Byte)
         bytes.AddRange(guid.ToByteArray)
         bytes.AddRange(UInt16ToBytes(address))
-        Dim result = Request(New SSRequest(0, 253, bytes.ToArray))
+        Dim result = Request(New SSRequest(0, 253, bytes.ToArray), RequestRetriesDefault)
         If result.ResponseState = ResponseState.ok AndAlso result.Result = 0 Then Return
         Throw New Exception("RequestSetAddress: bad response: " + result.ResponseState.ToString + " " + result.Result.ToString)
     End Sub
 
+    Public Sub RequestRestart(address As Integer)
+        Dim result = Request(New SSRequest(address, 251, {255}), RequestRetriesDefault)
+        If result.ResponseState = ResponseState.ok AndAlso result.Result = 0 Then Return
+        Throw New Exception("RequestRestart: bad response: " + result.ResponseState.ToString + " " + result.Result.ToString)
+    End Sub
+
     Public Sub RequestGoToBootloader(address As Integer)
-        Dim result = Request(New SSRequest(address, 251, {2}))
+        Dim result = Request(New SSRequest(address, 251, {2}), RequestRetriesDefault)
         If result.ResponseState = ResponseState.ok AndAlso result.Result = 0 Then Return
         Throw New Exception("RequestGoToBootloader: bad response: " + result.ResponseState.ToString + " " + result.Result.ToString)
     End Sub
     Public Sub RequestGoToMain(address As Integer)
-        Dim result = Request(New SSRequest(address, 251, {1}))
+        Dim result = Request(New SSRequest(address, 251, {1}), RequestRetriesDefault)
         If result.ResponseState = ResponseState.ok AndAlso result.Result = 0 Then Return
         Throw New Exception("RequestGoToMain: bad response: " + result.ResponseState.ToString + " " + result.Result.ToString)
     End Sub
@@ -423,7 +506,7 @@ Public Class SimplSerialBus
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function RequestDeviceInfo(address As Integer) As DeviceInfo
-        Dim result = Request(New SSRequest(address, 254, {}))
+        Dim result = Request(New SSRequest(address, 254, {}), RequestRetriesDefault)
         Dim ascii = Text.ASCIIEncoding.ASCII
         Dim info As New DeviceInfo With {.Response = result}
         If result.ResponseState = ResponseState.ok Then
@@ -438,6 +521,13 @@ Public Class SimplSerialBus
                 info.DeviceGuid = New Guid(arr)
                 info.DeviceName = ascii.GetString(result.Data, 16, 32).Trim
                 info.DeviceDate = ascii.GetString(result.Data, 48, 6).Trim
+                If result.Data.Length >= 70 Then
+                    info.BootName = ascii.GetString(result.Data, 54, 16).Trim
+                End If
+                If info.DeviceName.StartsWith("BwlBoot") Then
+                    info.BootloaderMode = True
+                    info.BootName = info.DeviceName.Substring(0, 16).Trim.Replace(":", "")
+                End If
                 Return info
             End If
         End If

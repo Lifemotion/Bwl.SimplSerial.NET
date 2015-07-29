@@ -36,8 +36,12 @@ Public Class SimplSerialTool
         End If
         SerialSelector1.AssociatedISerialDevice = _sserial.SerialDevice
         SerialSelector1.LoadFromDevice()
+
         SerialSelector1.Enabled = True
         SerialSelector1.AllowPortChange = allowChangePort
+        If allowChangePort Then
+            SerialSelector1.SaveToDevice()
+        End If
         Dim thread As New Threading.Thread(AddressOf SearchingThread)
         thread.IsBackground = True
         thread.Name = "Searching"
@@ -78,6 +82,16 @@ Public Class SimplSerialTool
                         devDateTextbox.Text = info.DeviceDate
                         devguidTextbox.Text = info.DeviceGuid.ToString
                         devnameTextbox.Text = info.DeviceName
+                        If info.BootloaderMode Then
+                            bootstateTextbox.Text = "режим загрузчика, " + info.BootName
+                        Else
+                            bootstateTextbox.Text = "основной код, "
+                            If info.BootName > "" Then
+                                bootstateTextbox.Text += "загрузчик найден: " + info.BootName
+                            Else
+                                bootstateTextbox.Text += "загрузчик не найден"
+                            End If
+                        End If
                     Else
                         Throw New Exception(info.Response.ResponseState.ToString)
                     End If
@@ -171,12 +185,12 @@ Public Class SimplSerialTool
     Private Sub portWriteButton_Click() Handles portWriteButton.Click
         TryThis(Sub()
                     Dim bytes(15) As Byte
-                    Dim pins As New SimplSerialBus.Pins
-                    PortMonitor1.ToPort() : pins.Port1 = PortMonitor1.Port
-                    PortMonitor2.ToPort() : pins.Port2 = PortMonitor2.Port
-                    PortMonitor3.ToPort() : pins.Port3 = PortMonitor3.Port
-                    PortMonitor4.ToPort() : pins.Port4 = PortMonitor4.Port
-                    _sserial.RequestPinsChange(CInt(Val(reqAddressTextbox.Text)), pins)
+                    Dim pins As New SimplSerialBus.Ports
+                    PortMonitor1.ToPort() : pins.PortA = PortMonitor1.Port
+                    PortMonitor2.ToPort() : pins.PortB = PortMonitor2.Port
+                    PortMonitor3.ToPort() : pins.PortC = PortMonitor3.Port
+                    PortMonitor4.ToPort() : pins.PortD = PortMonitor4.Port
+                    _sserial.RequestPortsChange(CInt(Val(reqAddressTextbox.Text)), pins)
                 End Sub)
         portReadButton_Click()
     End Sub
@@ -191,11 +205,11 @@ Public Class SimplSerialTool
 
     Private Sub portReadButton_Click() Handles portReadButton.Click
         TryThis(Sub()
-                    Dim pins = _sserial.RequestPinsRead(CInt(Val(reqAddressTextbox.Text)))
-                    PortMonitor1.Port = pins.Port1 : PortMonitor1.Refresh()
-                    PortMonitor2.Port = pins.Port2 : PortMonitor2.Refresh()
-                    PortMonitor3.Port = pins.Port3 : PortMonitor3.Refresh()
-                    PortMonitor4.Port = pins.Port4 : PortMonitor4.Refresh()
+                    Dim pins = _sserial.RequestPortsRead(CInt(Val(reqAddressTextbox.Text)))
+                    PortMonitor1.Port = pins.PortA : PortMonitor1.Refresh()
+                    PortMonitor2.Port = pins.PortB : PortMonitor2.Refresh()
+                    PortMonitor3.Port = pins.PortC : PortMonitor3.Refresh()
+                    PortMonitor4.Port = pins.PortD : PortMonitor4.Refresh()
                 End Sub)
     End Sub
 
@@ -357,5 +371,13 @@ Public Class SimplSerialTool
             Application.DoEvents()
         Next
         searchDevicesResult.Enabled = True
+    End Sub
+
+    Private Sub goToBootloader_Click(sender As Object, e As EventArgs) Handles goToBootloader.Click
+
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        _sserial.RequestRestart(Val(reqAddressTextbox.Text))
     End Sub
 End Class

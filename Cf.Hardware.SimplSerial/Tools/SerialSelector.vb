@@ -34,13 +34,22 @@
     Public Sub LoadFromDevice()
         If AssociatedISerialDevice IsNot Nothing Then
             _suppressUpdate = True
-            ComboBox1.Text = AssociatedISerialDevice.DeviceAddress
+            If AssociatedISerialDevice.DeviceAddress > "" Then ComboBox1.Text = AssociatedISerialDevice.DeviceAddress
             ComboBox2.Text = AssociatedISerialDevice.DeviceSpeed.ToString
             _suppressUpdate = False
         End If
     End Sub
 
-    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.TextChanged, ComboBox2.TextChanged
+    Public Sub SaveToDevice()
+        If AssociatedISerialDevice IsNot Nothing Then
+            _suppressUpdate = True
+            AssociatedISerialDevice.DeviceAddress = ComboBox1.Text
+            AssociatedISerialDevice.DeviceSpeed = CInt(Val(ComboBox2.Text))
+            _suppressUpdate = False
+        End If
+    End Sub
+
+    Private Sub ComboBox1_SelectedIndexChanged() Handles ComboBox1.TextChanged, ComboBox2.TextChanged
         If AssociatedISerialDevice IsNot Nothing And Not _suppressUpdate Then
             With AssociatedISerialDevice
                 Try

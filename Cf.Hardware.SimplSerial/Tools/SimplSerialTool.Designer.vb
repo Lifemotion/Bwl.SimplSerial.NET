@@ -27,10 +27,6 @@ Partial Class SimplSerialTool
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.Label17 = New System.Windows.Forms.Label()
-        Me.PortMonitor4 = New Bwl.Hardware.SimplSerial.PortMonitor()
-        Me.PortMonitor3 = New Bwl.Hardware.SimplSerial.PortMonitor()
-        Me.PortMonitor2 = New Bwl.Hardware.SimplSerial.PortMonitor()
-        Me.PortMonitor1 = New Bwl.Hardware.SimplSerial.PortMonitor()
         Me.Label21 = New System.Windows.Forms.Label()
         Me.Label20 = New System.Windows.Forms.Label()
         Me.Label16 = New System.Windows.Forms.Label()
@@ -65,8 +61,8 @@ Partial Class SimplSerialTool
         Me.guidToAddTextbox = New System.Windows.Forms.TextBox()
         Me.identifiersList = New System.Windows.Forms.ListBox()
         Me.TabPage4 = New System.Windows.Forms.TabPage()
-        Me.CodeExecutor1 = New Bwl.Hardware.SimplSerial.CodeExecutor()
         Me.TabPage5 = New System.Windows.Forms.TabPage()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me._searchingEnabled = New System.Windows.Forms.CheckBox()
         Me.searchDevicesResult = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
@@ -89,8 +85,15 @@ Partial Class SimplSerialTool
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.bootstateTextbox = New System.Windows.Forms.TextBox()
+        Me.Label18 = New System.Windows.Forms.Label()
         Me.SerialSelector1 = New Bwl.Hardware.SimplSerial.SerialSelector()
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.PortMonitor4 = New Bwl.Hardware.SimplSerial.PortMonitor()
+        Me.PortMonitor3 = New Bwl.Hardware.SimplSerial.PortMonitor()
+        Me.PortMonitor2 = New Bwl.Hardware.SimplSerial.PortMonitor()
+        Me.PortMonitor1 = New Bwl.Hardware.SimplSerial.PortMonitor()
+        Me.CodeExecutor1 = New Bwl.Hardware.SimplSerial.CodeExecutor()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -109,10 +112,10 @@ Partial Class SimplSerialTool
         Me.TabControl1.Controls.Add(Me.TabPage3)
         Me.TabControl1.Controls.Add(Me.TabPage4)
         Me.TabControl1.Controls.Add(Me.TabPage5)
-        Me.TabControl1.Location = New System.Drawing.Point(2, 124)
+        Me.TabControl1.Location = New System.Drawing.Point(2, 151)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(822, 286)
+        Me.TabControl1.Size = New System.Drawing.Size(822, 277)
         Me.TabControl1.TabIndex = 2
         '
         'TabPage1
@@ -136,7 +139,7 @@ Partial Class SimplSerialTool
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(814, 260)
+        Me.TabPage1.Size = New System.Drawing.Size(814, 251)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Основное"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -148,38 +151,6 @@ Partial Class SimplSerialTool
         Me.Label17.Size = New System.Drawing.Size(129, 31)
         Me.Label17.TabIndex = 39
         Me.Label17.Text = "Удерживайте Shift для немедленной записи "
-        '
-        'PortMonitor4
-        '
-        Me.PortMonitor4.Location = New System.Drawing.Point(510, 60)
-        Me.PortMonitor4.Name = "PortMonitor4"
-        Me.PortMonitor4.Port = Nothing
-        Me.PortMonitor4.Size = New System.Drawing.Size(166, 187)
-        Me.PortMonitor4.TabIndex = 38
-        '
-        'PortMonitor3
-        '
-        Me.PortMonitor3.Location = New System.Drawing.Point(339, 60)
-        Me.PortMonitor3.Name = "PortMonitor3"
-        Me.PortMonitor3.Port = Nothing
-        Me.PortMonitor3.Size = New System.Drawing.Size(166, 187)
-        Me.PortMonitor3.TabIndex = 37
-        '
-        'PortMonitor2
-        '
-        Me.PortMonitor2.Location = New System.Drawing.Point(169, 60)
-        Me.PortMonitor2.Name = "PortMonitor2"
-        Me.PortMonitor2.Port = Nothing
-        Me.PortMonitor2.Size = New System.Drawing.Size(166, 187)
-        Me.PortMonitor2.TabIndex = 36
-        '
-        'PortMonitor1
-        '
-        Me.PortMonitor1.Location = New System.Drawing.Point(2, 60)
-        Me.PortMonitor1.Name = "PortMonitor1"
-        Me.PortMonitor1.Port = Nothing
-        Me.PortMonitor1.Size = New System.Drawing.Size(166, 187)
-        Me.PortMonitor1.TabIndex = 35
         '
         'Label21
         '
@@ -246,7 +217,7 @@ Partial Class SimplSerialTool
         '
         'portWriteButton
         '
-        Me.portWriteButton.Location = New System.Drawing.Point(680, 218)
+        Me.portWriteButton.Location = New System.Drawing.Point(680, 216)
         Me.portWriteButton.Name = "portWriteButton"
         Me.portWriteButton.Size = New System.Drawing.Size(124, 27)
         Me.portWriteButton.TabIndex = 13
@@ -297,7 +268,7 @@ Partial Class SimplSerialTool
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(814, 260)
+        Me.TabPage2.Size = New System.Drawing.Size(814, 251)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Загрузчик"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -446,7 +417,7 @@ Partial Class SimplSerialTool
         Me.TabPage3.Location = New System.Drawing.Point(4, 22)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(814, 260)
+        Me.TabPage3.Size = New System.Drawing.Size(814, 251)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Идентификаторы"
         Me.TabPage3.UseVisualStyleBackColor = True
@@ -514,25 +485,10 @@ Partial Class SimplSerialTool
         Me.TabPage4.Location = New System.Drawing.Point(4, 22)
         Me.TabPage4.Name = "TabPage4"
         Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage4.Size = New System.Drawing.Size(814, 260)
+        Me.TabPage4.Size = New System.Drawing.Size(814, 251)
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "Скрипт"
         Me.TabPage4.UseVisualStyleBackColor = True
-        '
-        'CodeExecutor1
-        '
-        Me.CodeExecutor1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.CodeExecutor1.ImportsList = CType(resources.GetObject("CodeExecutor1.ImportsList"), System.Collections.Generic.List(Of String))
-        Me.CodeExecutor1.Location = New System.Drawing.Point(6, 6)
-        Me.CodeExecutor1.Name = "CodeExecutor1"
-        Me.CodeExecutor1.ReferencesList = CType(resources.GetObject("CodeExecutor1.ReferencesList"), System.Collections.Generic.List(Of String))
-        Me.CodeExecutor1.Size = New System.Drawing.Size(802, 218)
-        Me.CodeExecutor1.SourceText = ""
-        Me.CodeExecutor1.TabIndex = 0
-        Me.CodeExecutor1.Template = "Imports Bwl.Hardware.SimplSerial.SimplSerialBus'importsPublic Class TestProgram'c" & _
-    "odeEnd Class"
         '
         'TabPage5
         '
@@ -542,10 +498,19 @@ Partial Class SimplSerialTool
         Me.TabPage5.Location = New System.Drawing.Point(4, 22)
         Me.TabPage5.Name = "TabPage5"
         Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage5.Size = New System.Drawing.Size(814, 260)
+        Me.TabPage5.Size = New System.Drawing.Size(814, 251)
         Me.TabPage5.TabIndex = 4
         Me.TabPage5.Text = "Поиск"
         Me.TabPage5.UseVisualStyleBackColor = True
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(627, 8)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(179, 22)
+        Me.Button1.TabIndex = 5
+        Me.Button1.Text = "Запрос информации у всех"
+        Me.Button1.UseVisualStyleBackColor = True
         '
         '_searchingEnabled
         '
@@ -675,7 +640,7 @@ Partial Class SimplSerialTool
         'connectTimer
         '
         Me.connectTimer.Enabled = True
-        Me.connectTimer.Interval = 2000
+        Me.connectTimer.Interval = 500
         '
         'DatagridLogWriter1
         '
@@ -683,7 +648,7 @@ Partial Class SimplSerialTool
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DatagridLogWriter1.FilterText = ""
-        Me.DatagridLogWriter1.Location = New System.Drawing.Point(1, 413)
+        Me.DatagridLogWriter1.Location = New System.Drawing.Point(1, 429)
         Me.DatagridLogWriter1.LogEnabled = True
         Me.DatagridLogWriter1.Margin = New System.Windows.Forms.Padding(0)
         Me.DatagridLogWriter1.Name = "DatagridLogWriter1"
@@ -692,7 +657,7 @@ Partial Class SimplSerialTool
         Me.DatagridLogWriter1.ShowInformation = True
         Me.DatagridLogWriter1.ShowMessages = True
         Me.DatagridLogWriter1.ShowWarnings = True
-        Me.DatagridLogWriter1.Size = New System.Drawing.Size(822, 149)
+        Me.DatagridLogWriter1.Size = New System.Drawing.Size(822, 208)
         Me.DatagridLogWriter1.TabIndex = 10
         '
         'MenuStrip1
@@ -755,6 +720,34 @@ Partial Class SimplSerialTool
         Me.Label12.TabIndex = 24
         Me.Label12.Text = "Информация об устройстве:"
         '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(267, 72)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(101, 22)
+        Me.Button2.TabIndex = 25
+        Me.Button2.Text = "Перезагрузка"
+        Me.Button2.UseVisualStyleBackColor = True
+        '
+        'bootstateTextbox
+        '
+        Me.bootstateTextbox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.bootstateTextbox.Location = New System.Drawing.Point(581, 126)
+        Me.bootstateTextbox.Name = "bootstateTextbox"
+        Me.bootstateTextbox.ReadOnly = True
+        Me.bootstateTextbox.Size = New System.Drawing.Size(238, 20)
+        Me.bootstateTextbox.TabIndex = 26
+        '
+        'Label18
+        '
+        Me.Label18.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label18.AutoSize = True
+        Me.Label18.Location = New System.Drawing.Point(486, 133)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(62, 13)
+        Me.Label18.TabIndex = 27
+        Me.Label18.Text = "Загрузчик:"
+        '
         'SerialSelector1
         '
         Me.SerialSelector1.AllowPortChange = True
@@ -765,20 +758,61 @@ Partial Class SimplSerialTool
         Me.SerialSelector1.Size = New System.Drawing.Size(132, 63)
         Me.SerialSelector1.TabIndex = 13
         '
-        'Button1
+        'PortMonitor4
         '
-        Me.Button1.Location = New System.Drawing.Point(627, 8)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(179, 22)
-        Me.Button1.TabIndex = 5
-        Me.Button1.Text = "Запрос информации у всех"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.PortMonitor4.Location = New System.Drawing.Point(510, 60)
+        Me.PortMonitor4.Name = "PortMonitor4"
+        Me.PortMonitor4.Port = Nothing
+        Me.PortMonitor4.Size = New System.Drawing.Size(166, 187)
+        Me.PortMonitor4.TabIndex = 38
+        '
+        'PortMonitor3
+        '
+        Me.PortMonitor3.Location = New System.Drawing.Point(339, 60)
+        Me.PortMonitor3.Name = "PortMonitor3"
+        Me.PortMonitor3.Port = Nothing
+        Me.PortMonitor3.Size = New System.Drawing.Size(166, 187)
+        Me.PortMonitor3.TabIndex = 37
+        '
+        'PortMonitor2
+        '
+        Me.PortMonitor2.Location = New System.Drawing.Point(169, 60)
+        Me.PortMonitor2.Name = "PortMonitor2"
+        Me.PortMonitor2.Port = Nothing
+        Me.PortMonitor2.Size = New System.Drawing.Size(166, 187)
+        Me.PortMonitor2.TabIndex = 36
+        '
+        'PortMonitor1
+        '
+        Me.PortMonitor1.Location = New System.Drawing.Point(2, 60)
+        Me.PortMonitor1.Name = "PortMonitor1"
+        Me.PortMonitor1.Port = Nothing
+        Me.PortMonitor1.Size = New System.Drawing.Size(166, 187)
+        Me.PortMonitor1.TabIndex = 35
+        '
+        'CodeExecutor1
+        '
+        Me.CodeExecutor1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.CodeExecutor1.ImportsList = CType(resources.GetObject("CodeExecutor1.ImportsList"), System.Collections.Generic.List(Of String))
+        Me.CodeExecutor1.Location = New System.Drawing.Point(6, 6)
+        Me.CodeExecutor1.Name = "CodeExecutor1"
+        Me.CodeExecutor1.ReferencesList = CType(resources.GetObject("CodeExecutor1.ReferencesList"), System.Collections.Generic.List(Of String))
+        Me.CodeExecutor1.Size = New System.Drawing.Size(802, 218)
+        Me.CodeExecutor1.SourceText = ""
+        Me.CodeExecutor1.TabIndex = 0
+        Me.CodeExecutor1.Template = "Imports Bwl.Hardware.SimplSerial.SimplSerialBus'importsPublic Class TestProgram'c" & _
+    "odeEnd Class"
         '
         'SimplSerialTool
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(824, 561)
+        Me.ClientSize = New System.Drawing.Size(824, 638)
+        Me.Controls.Add(Me.bootstateTextbox)
+        Me.Controls.Add(Me.Label18)
+        Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Label12)
         Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.Label10)
@@ -887,5 +921,8 @@ Partial Class SimplSerialTool
     Friend WithEvents PortMonitor1 As Bwl.Hardware.SimplSerial.PortMonitor
     Friend WithEvents Label17 As System.Windows.Forms.Label
     Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents Button2 As System.Windows.Forms.Button
+    Friend WithEvents bootstateTextbox As System.Windows.Forms.TextBox
+    Friend WithEvents Label18 As System.Windows.Forms.Label
 
 End Class
