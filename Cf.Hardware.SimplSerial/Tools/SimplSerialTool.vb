@@ -352,16 +352,9 @@ Public Class SimplSerialTool
         searchDevicesResult.Enabled = True
     End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs)
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         TryThis(Sub()
                     _sserial.RequestRestart(GetAddress())
-                End Sub)
-    End Sub
-
-    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-        TryThis(Sub()
-                    Dim info = _sserial.RequestDeviceInfo(GetAddress())
-                    If info.Response.ResponseState <> ResponseState.ok Then Throw New Exception(info.Response.ResponseState.ToString)
                 End Sub)
     End Sub
 
