@@ -357,6 +357,15 @@ Public Class SimplSerialBus
     ''' <summary>
     ''' Выполнить запрос и получить ответ. 
     ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function Request(address As UShort, command As Byte, ParamArray data As Byte()) As SSResponse
+        Return Request(New SSRequest(address, command, data))
+    End Function
+
+    ''' <summary>
+    ''' Выполнить запрос и получить ответ. 
+    ''' </summary>
     ''' <param name="requestPacket">Пакет данных запроса</param>
     ''' <returns></returns>
     ''' <remarks></remarks>

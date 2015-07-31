@@ -2,14 +2,20 @@
 
 Public Class SimplSerialTool
     Inherits Form
-    Private Shared _sserial As SimplSerialBus
+    Private Shared _form As SimplSerialTool
     Private _logger As Logger
     Private _storage As SettingsStorage
+    Private _sserial As SimplSerialBus
 
-
-    Public Shared ReadOnly Property SSerial As SimplSerialBus
+    Public Shared ReadOnly Property SelAddress As Integer
         Get
-            Return _sserial
+            Return _form.GetAddress
+        End Get
+    End Property
+
+    Public Shared ReadOnly Property SSB As SimplSerialBus
+        Get
+            Return _form._sserial
         End Get
     End Property
 
@@ -26,57 +32,50 @@ Public Class SimplSerialTool
         _sserial = sserial
         _logger = logger
         _storage = storage
-        Dim allowChangePort As Boolean
+        Dim allowChangePort As Boolean = False
         If _sserial Is Nothing Then
             _sserial = New SimplSerialBus(New SerialPort)
             allowChangePort = True
-        Else
-            SerialSelector1.AllowPortChange = False
-            allowChangePort = False
         End If
         SerialSelector1.AssociatedISerialDevice = _sserial.SerialDevice
         SerialSelector1.LoadFromDevice()
-
         SerialSelector1.Enabled = True
         SerialSelector1.AllowPortChange = allowChangePort
-        If allowChangePort Then
-            SerialSelector1.SaveToDevice()
-        End If
+        If allowChangePort Then SerialSelector1.SaveToDevice()
+
         Dim thread As New Threading.Thread(AddressOf SearchingThread)
         thread.IsBackground = True
-        thread.Name = "Searching"
+        thread.Name = "SearchingThread"
         thread.Start()
+
+        _form = Me
+    End Sub
+
+    Public Sub CheckConnected()
+        If _sserial.IsConnected = False Then
+            _logger.AddMessage("Устройство не подключено. Попытка подключения (" + _sserial.SerialDevice.DeviceAddress + ", " + _sserial.SerialDevice.DeviceSpeed.ToString + ")...")
+            Try
+                _sserial.Connect()
+            Catch ex As Exception
+                _logger.AddError(ex.Message)
+            End Try
+        End If
     End Sub
 
     Private Sub Tool_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         _logger.ConnectWriter(DatagridLogWriter1)
         ShowGuidInfo()
-        'CodeExecutor1.ReferencesList.Add("Bwl.Hardware.SimplSerial.Tool.exe")
-
-        '  CodeExecutor1.ImportsList.Add("SimplSerialTool")
+        CodeExecutor1.ImportsList.Add(Me.GetType.FullName)
         CodeExecutor.Logger = _logger
         CodeExecutor1.SourceText += "Sub Main()" + vbCrLf
-        CodeExecutor1.SourceText += "Dim result = SimplSerialTool.SSerial.Request(New SSRequest(0, 254, {}))" + vbCrLf
-        CodeExecutor1.SourceText += "CodeExecutor.Output(result.ToString)" + vbCrLf
+        CodeExecutor1.SourceText += "Dim result = SSB.Request(SelAddress, 254)" + vbCrLf
+        CodeExecutor1.SourceText += "Output(result.ToString)" + vbCrLf
         CodeExecutor1.SourceText += "End Sub" + vbCrLf
     End Sub
 
-    Private Sub connectTimer_Tick(sender As Object, e As EventArgs) Handles connectTimer.Tick
-        If _sserial.IsConnected = False Then
-            Try
-                If _sserial.SerialDevice.DeviceAddress > "" Then
-                    _sserial.Connect()
-                    _logger.AddMessage("Подключено: " + _sserial.SerialDevice.DeviceAddress + ", " + _sserial.SerialDevice.DeviceSpeed.ToString)
-                End If
-            Catch ex As Exception
-                _logger.AddWarning("Не могу подключиться к " + _sserial.SerialDevice.DeviceAddress + ", " + ex.Message)
-            End Try
-        End If
-    End Sub
-
-    Private Sub getDevInfoButton_Click(sender As Object, e As EventArgs) Handles getDevInfoButton.Click
+    Private Sub getDevInfoButton_Click(sender As Object, e As EventArgs) Handles getDevInfoButton.Click, Button3.Click
         TryThis(Sub()
-                    Dim info = _sserial.RequestDeviceInfo(Val(reqAddressTextbox.Text))
+                    Dim info = _sserial.RequestDeviceInfo(GetAddress())
                     If info.Response.ResponseState = ResponseState.ok Then
                         devAddressTextbox.Text = info.Response.FromAddress.ToString
                         devDateTextbox.Text = info.DeviceDate
@@ -89,7 +88,7 @@ Public Class SimplSerialTool
                             If info.BootName > "" Then
                                 bootstateTextbox.Text += "загрузчик найден: " + info.BootName
                             Else
-                                bootstateTextbox.Text += "загрузчик не найден"
+                                bootstateTextbox.Text += "нет информации о загрузчике"
                             End If
                         End If
                         addInfoTextbox.Text = "SimplSerial: " + info.ProtocolVersion
@@ -101,6 +100,7 @@ Public Class SimplSerialTool
 
     Public Delegate Sub TryThisDelegate()
     Public Sub TryThis(dlg As TryThisDelegate)
+        CheckConnected()
         Try
             dlg.Invoke()
             _logger.AddMessage("OK")
@@ -108,21 +108,25 @@ Public Class SimplSerialTool
             _logger.AddWarning(ex.Message)
         End Try
     End Sub
+    Dim _rnd As New Random
+    Public Function GetAddress() As Integer
+        Dim address = 0
+        If selectAddress.Checked Then address = CInt(Val(reqAddressTextbox.Text))
+        If selectGuid.Checked Then
+            address = _rnd.Next(1, 30000)
+            _sserial.RequestSetAddress(Guid.Parse(reqGuidTextbox.Text), address)
+        End If
+        Return address
+    End Function
 
     Private Sub setAddressButton_Click(sender As Object, e As EventArgs) Handles setAddressButton.Click
-        Dim g As Guid
-        If Guid.TryParse(_setAddressGuidTextbox.Text, g) Then
-            TryThis(Sub()
-                        _sserial.RequestSetAddress(g, Val(_setAddressValueTextbox.Text))
-                    End Sub)
-        Else
-            _logger.AddError("guid incorrect")
-        End If
+        TryThis(Sub()
+                    _sserial.RequestSetAddress(Guid.Parse(reqGuidTextbox.Text), Val(_setAddressValueTextbox.Text))
+                End Sub)
     End Sub
 
     Private Sub selfTestBustton_Click(sender As Object, e As EventArgs) Handles selfTestBustton.Click
         Const maxsize = 128
-
         TryThis(Sub()
                     For n = 1 To 50
                         Dim rnd As New Random
@@ -140,20 +144,18 @@ Public Class SimplSerialTool
 
     Private Sub goToBootloader_Click() Handles goToBootloader.Click
         TryThis(Sub()
-                    _sserial.RequestGoToBootloader(Val(reqAddressTextbox.Text))
+                    _sserial.RequestGoToBootloader(GetAddress())
                 End Sub)
     End Sub
 
     Private Sub reqBootInfoButton_Click() Handles reqBootInfoButton.Click
         Try
             goToBootloader_Click()
-
         Catch ex As Exception
-
         End Try
         TryThis(Sub()
                     _flasher = New FirmwareUploader(_sserial, _logger)
-                    _flasher.RequestBootInfo(Val(reqAddressTextbox.Text))
+                    _flasher.RequestBootInfo(GetAddress())
                     spmSizeTextbox.Text = _flasher.SpmSize.ToString
                     progmemSizeTextbox.Text = _flasher.ProgmemSize.ToString
                     signature.Text = _flasher.Signature
@@ -164,22 +166,21 @@ Public Class SimplSerialTool
 
     Private Sub programMemButton_Click(sender As Object, e As EventArgs) Handles programMemButton.Click
         reqBootInfoButton_Click()
-
         TryThis(Sub()
-                    _flasher.EraseAndFlashAll(Val(reqAddressTextbox.Text), FirmwareUploader.LoadFirmwareFromFile(firmwarePathTextbox.Text))
+                    _flasher.EraseAndFlashAll(GetAddress(), FirmwareUploader.LoadFirmwareFromFile(firmwarePathTextbox.Text))
                 End Sub)
     End Sub
 
     Private Sub gotoMain_Click(sender As Object, e As EventArgs) Handles gotoMain.Click
         TryThis(Sub()
-                    _sserial.RequestGoToMain(Val(reqAddressTextbox.Text))
+                    _sserial.RequestGoToMain(GetAddress())
                 End Sub)
     End Sub
 
     Private Sub eraseProgramButton_Click(sender As Object, e As EventArgs) Handles eraseProgramButton.Click
         reqBootInfoButton_Click()
         TryThis(Sub()
-                    _flasher.EraseAll(Val(reqAddressTextbox.Text))
+                    _flasher.EraseAll(GetAddress())
                 End Sub)
     End Sub
 
@@ -191,12 +192,12 @@ Public Class SimplSerialTool
                     PortMonitor2.ToPort() : pins.PortB = PortMonitor2.Port
                     PortMonitor3.ToPort() : pins.PortC = PortMonitor3.Port
                     PortMonitor4.ToPort() : pins.PortD = PortMonitor4.Port
-                    _sserial.RequestPortsChange(CInt(Val(reqAddressTextbox.Text)), pins)
+                    _sserial.RequestPortsChange(GetAddress(), pins)
                 End Sub)
         portReadButton_Click()
     End Sub
 
-    Private Sub PortMonitorHandler() Handles PortMonitor1.PortChanged, PortMonitor2.PortChanged, PortMonitor3.PortChanged, PortMonitor4.PortChanged
+    Private Sub PortMonitorHandler()
         If My.Computer.Keyboard.ShiftKeyDown Then portWriteButton_Click()
     End Sub
 
@@ -206,7 +207,7 @@ Public Class SimplSerialTool
 
     Private Sub portReadButton_Click() Handles portReadButton.Click
         TryThis(Sub()
-                    Dim pins = _sserial.RequestPortsRead(CInt(Val(reqAddressTextbox.Text)))
+                    Dim pins = _sserial.RequestPortsRead(GetAddress())
                     PortMonitor1.Port = pins.PortA : PortMonitor1.Refresh()
                     PortMonitor2.Port = pins.PortB : PortMonitor2.Refresh()
                     PortMonitor3.Port = pins.PortC : PortMonitor3.Refresh()
@@ -268,19 +269,11 @@ Public Class SimplSerialTool
     End Sub
 
     Private Sub identifiersList_SelectedIndexChanged(sender As Object, e As EventArgs) Handles identifiersList.SelectedIndexChanged
-
         If identifiersList.SelectedItem IsNot Nothing Then
             Dim g = identifiersList.SelectedItem.ToString.Split(" ")(0)
             Try
-
-                'If guid.Length = 36 Then
-                '	guidToAddTextbox.Text = guid
-                '	guidCommentTextbox.Text = GetGuidInfo(guid)
-                'End If
-
                 _sserial.RequestSetAddress(Guid.Parse(g), 255)
                 _logger.AddInformation(g + " _ good")
-
             Catch ex As Exception
                 _logger.AddError(g + " _ " + ex.ToString)
             End Try
@@ -292,29 +285,14 @@ Public Class SimplSerialTool
             For Each it In identifiersList.Items
                 Dim g = it.ToString.Split(" ")(0)
                 Try
-
-                    'If guid.Length = 36 Then
-                    '	guidToAddTextbox.Text = guid
-                    '	guidCommentTextbox.Text = GetGuidInfo(guid)
-                    'End If
-
                     _sserial.RequestSetAddress(Guid.Parse(g), 255)
                     _logger.AddInformation(g + " _ good")
-
                 Catch ex As Exception
-
                 End Try
             Next
         Catch ex As Exception
             _logger.AddError(ex.ToString)
         End Try
-
-    End Sub
-
-    Private Sub searchDevicesButton_Click(sender As Object, e As EventArgs)
-        'TryThis(Sub()
-        Dim info = _sserial.FindDevices
-        'End Sub)
     End Sub
 
     Private Sub SearchingThread()
@@ -323,6 +301,7 @@ Public Class SimplSerialTool
             Try
 
                 If Me.Created AndAlso Me.Invoke(Function() _searchingEnabled.Checked) = True Then
+                    CheckConnected()
                     For i = 1 To 10
 
                         Dim results = _sserial.FindDevices()
@@ -335,9 +314,7 @@ Public Class SimplSerialTool
                     Next
                 End If
             Catch ex As Exception
-
             End Try
-
             Threading.Thread.Sleep(100)
         Loop
     End Sub
@@ -354,15 +331,16 @@ Public Class SimplSerialTool
         For Each line In lines
             Dim split = (line + "   ").Split(" ")
             For i = 1 To 3
-            Try
+                Try
                     Dim id = Guid.Parse(split(0))
-                _sserial.RequestSetAddress(id, 255)
-                Dim info = _sserial.RequestDeviceInfo(255)
-                If info.DeviceGuid = id Then
-                    split(1) = info.DeviceName.Trim
-                    split(2) = info.DeviceDate.Trim
-                End If
-            Catch ex As Exception
+                    Dim addr = _rnd.Next(1, 30000)
+                    _sserial.RequestSetAddress(id, addr)
+                    Dim info = _sserial.RequestDeviceInfo(addr)
+                    If info.DeviceGuid = id Then
+                        split(1) = info.DeviceName.Trim
+                        split(2) = info.DeviceDate.Trim
+                    End If
+                Catch ex As Exception
                 End Try
 
             Next
@@ -374,11 +352,28 @@ Public Class SimplSerialTool
         searchDevicesResult.Enabled = True
     End Sub
 
-    Private Sub goToBootloader_Click(sender As Object, e As EventArgs) Handles goToBootloader.Click
-
+    Private Sub Button2_Click(sender As Object, e As EventArgs)
+        TryThis(Sub()
+                    _sserial.RequestRestart(GetAddress())
+                End Sub)
     End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        _sserial.RequestRestart(Val(reqAddressTextbox.Text))
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        TryThis(Sub()
+                    Dim info = _sserial.RequestDeviceInfo(GetAddress())
+                    If info.Response.ResponseState <> ResponseState.ok Then Throw New Exception(info.Response.ResponseState.ToString)
+                End Sub)
     End Sub
+
+    Private Sub searchDevicesResult_DoubleClick(sender As Object, e As EventArgs) Handles searchDevicesResult.DoubleClick
+        Try
+            Dim line = searchDevicesResult.Lines(searchDevicesResult.GetLineFromCharIndex(searchDevicesResult.GetFirstCharIndexOfCurrentLine))
+            Dim parts = line.Split(" ")
+            reqGuidTextbox.Text = parts(0)
+            selectGuid.Checked = True
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
 End Class

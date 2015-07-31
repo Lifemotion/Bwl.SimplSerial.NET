@@ -117,13 +117,38 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Label11.Text" xml:space="preserve">
+    <value>Прошивка возможна, только если в устройстве есть загрузчик. Предварительная очистка или переход в загрузчик не требуются. Загрузка неправильной прошивки не повредит загрузчик, но может вызвать зависание или невозможность перехода в загрузчик. Некоторые устройства переходят в загрузчик сразу после включения.
+</value>
+  </data>
+  <data name="Label22.Text" xml:space="preserve">
+    <value>Поиск поддерживается версией протокола не ниже 1.2. Основная программа и загрузчик могут иметь разную версию протокола. Поиск является процессом, время которого не известно заранее и не ограничено. Также метод поиска не имеет данных о количестве устройств на шине.
+
+Двойной щелчок по идентификатору переносит его в выбор устройства.</value>
+  </data>
+  <data name="Label23.Text" xml:space="preserve">
+    <value>Скрипт должен быть написан на языке VB.NET.
+
+Доступные объекты и методы:
+SSB - SimplSerialBus для текущего устройства.
+SSB.Request (address, command [,databytes()]) - запрос.
+
+Output (ParamArray objs()) - вывод в лог одного или нескольких обьектов или переменных.
+
+Wait (secs As Single) - ожидание в течение указанного числа секунд.
+
+SelAddress - возвращает рабочий адрес в соотвестствии с настройками на форме.
+
+Если открыто более одной SST, может не работать!</value>
+  </data>
   <data name="CodeExecutor1.ImportsList" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAJoBbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1u
         ZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XV0sIG1zY29ybGliLCBWZXJzaW9u
         PTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4OQUB
         AAAAMFN5c3RlbS5Db2xsZWN0aW9ucy5HZW5lcmljLkxpc3RgMVtbU3lzdGVtLlN0cmluZwMAAAAGX2l0
-        ZW1zBV9zaXplCF92ZXJzaW9uBgAACAgCAAAACQMAAAAAAAAAAAAAABEDAAAAAAAAAAs=
+        ZW1zBV9zaXplCF92ZXJzaW9uBgAACAgCAAAACQMAAAABAAAAAQAAABEDAAAABAAAAAYEAAAAJUJ3bC5I
+        YXJkd2FyZS5TaW1wbFNlcmlhbC5Db2RlRXhlY3V0b3INAws=
 </value>
   </data>
   <data name="CodeExecutor1.ReferencesList" mimetype="application/x-microsoft.net.object.binary.base64">
@@ -138,11 +163,11 @@
         ZXJpYWwuZGxsCw==
 </value>
   </data>
-  <metadata name="connectTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>132, 17</value>
-  </metadata>
   <metadata name="MenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>258, 17</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>53</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

@@ -1,4 +1,5 @@
 ﻿Imports System.CodeDom.Compiler
+Imports System.Windows.Forms
 
 Public Class CodeExecutor
 
@@ -12,7 +13,11 @@ Public Class CodeExecutor
     Public Shared Property Logger As Logger = New Logger
 
     Public Shared Sub Wait(secs As Single)
-        Threading.Thread.Sleep(secs * 1000.0)
+        Dim time = Now
+        Do While (Now - time).TotalSeconds < secs
+            Threading.Thread.Sleep(1)
+            Application.DoEvents()
+        Loop
     End Sub
 
     Public Shared Sub Output(ParamArray objs() As Object)
@@ -82,5 +87,18 @@ Public Class CodeExecutor
                 _Logger.AddWarning("End with error: " + ex.Message)
             End Try
         End If
+    End Sub
+
+    Public Sub New()
+
+        ' Этот вызов является обязательным для конструктора.
+        InitializeComponent()
+
+        ' Добавьте все инициализирующие действия после вызова InitializeComponent().
+
+    End Sub
+
+    Private Sub CodeExecutor_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If ImportsList.Contains(Me.GetType.FullName) = False Then ImportsList.Add(Me.GetType.FullName)
     End Sub
 End Class
