@@ -324,7 +324,7 @@ Public Class SimplSerialTool
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        If _searchingEnabled.Checked = True Then Return
+        If _searchingEnabled.Checked = True Then MsgBox("Для запроса информации у найденных устройств остановите поиск")
         searchDevicesResult.Enabled = False
         Dim lines As String() = searchDevicesResult.Lines
         Dim text As String = ""
