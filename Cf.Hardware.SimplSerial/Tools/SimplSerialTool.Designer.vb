@@ -149,7 +149,7 @@ Partial Class SimplSerialTool
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(907, 233)
+        Me.TabPage1.Size = New System.Drawing.Size(905, 233)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Основное"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -319,8 +319,8 @@ Partial Class SimplSerialTool
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(236, 71)
         Me.Label10.TabIndex = 26
-        Me.Label10.Text = "В зависимости от версий программы, протокола, загрузчика один или несколько спосо" & _
-    "бов рестарта могут не работать. В этом случае используйте перезагрузку по питани" & _
+        Me.Label10.Text = "В зависимости от версий программы, протокола, загрузчика один или несколько спосо" &
+    "бов рестарта могут не работать. В этом случае используйте перезагрузку по питани" &
     "ю."
         '
         'selfTestBustton
@@ -453,7 +453,7 @@ Partial Class SimplSerialTool
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(907, 233)
+        Me.TabPage2.Size = New System.Drawing.Size(921, 233)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Входы-выходы"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -561,14 +561,15 @@ Partial Class SimplSerialTool
         Me.TabPage5.Location = New System.Drawing.Point(4, 22)
         Me.TabPage5.Name = "TabPage5"
         Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage5.Size = New System.Drawing.Size(907, 233)
+        Me.TabPage5.Size = New System.Drawing.Size(902, 233)
         Me.TabPage5.TabIndex = 4
         Me.TabPage5.Text = "Поиск устройств на шине"
         Me.TabPage5.UseVisualStyleBackColor = True
         '
         'Label22
         '
-        Me.Label22.Location = New System.Drawing.Point(602, 63)
+        Me.Label22.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label22.Location = New System.Drawing.Point(599, 63)
         Me.Label22.Name = "Label22"
         Me.Label22.Size = New System.Drawing.Size(298, 165)
         Me.Label22.TabIndex = 6
@@ -576,7 +577,8 @@ Partial Class SimplSerialTool
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(603, 36)
+        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button1.Location = New System.Drawing.Point(600, 36)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(298, 22)
         Me.Button1.TabIndex = 5
@@ -585,8 +587,9 @@ Partial Class SimplSerialTool
         '
         '_searchingEnabled
         '
+        Me._searchingEnabled.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me._searchingEnabled.AutoSize = True
-        Me._searchingEnabled.Location = New System.Drawing.Point(603, 13)
+        Me._searchingEnabled.Location = New System.Drawing.Point(600, 13)
         Me._searchingEnabled.Name = "_searchingEnabled"
         Me._searchingEnabled.Size = New System.Drawing.Size(89, 17)
         Me._searchingEnabled.TabIndex = 1
@@ -602,7 +605,7 @@ Partial Class SimplSerialTool
         Me.searchDevicesResult.Location = New System.Drawing.Point(7, 12)
         Me.searchDevicesResult.Multiline = True
         Me.searchDevicesResult.Name = "searchDevicesResult"
-        Me.searchDevicesResult.Size = New System.Drawing.Size(590, 216)
+        Me.searchDevicesResult.Size = New System.Drawing.Size(571, 216)
         Me.searchDevicesResult.TabIndex = 0
         '
         'TabPage3
@@ -624,7 +627,7 @@ Partial Class SimplSerialTool
         'queryAllGuidsButton
         '
         Me.queryAllGuidsButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.queryAllGuidsButton.Location = New System.Drawing.Point(636, 91)
+        Me.queryAllGuidsButton.Location = New System.Drawing.Point(622, 91)
         Me.queryAllGuidsButton.Name = "queryAllGuidsButton"
         Me.queryAllGuidsButton.Size = New System.Drawing.Size(263, 22)
         Me.queryAllGuidsButton.TabIndex = 8
@@ -634,7 +637,7 @@ Partial Class SimplSerialTool
         'guidCommentTextbox
         '
         Me.guidCommentTextbox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.guidCommentTextbox.Location = New System.Drawing.Point(636, 37)
+        Me.guidCommentTextbox.Location = New System.Drawing.Point(622, 37)
         Me.guidCommentTextbox.Name = "guidCommentTextbox"
         Me.guidCommentTextbox.Size = New System.Drawing.Size(263, 20)
         Me.guidCommentTextbox.TabIndex = 7
@@ -642,7 +645,7 @@ Partial Class SimplSerialTool
         'addGuidButton
         '
         Me.addGuidButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.addGuidButton.Location = New System.Drawing.Point(799, 63)
+        Me.addGuidButton.Location = New System.Drawing.Point(785, 63)
         Me.addGuidButton.Name = "addGuidButton"
         Me.addGuidButton.Size = New System.Drawing.Size(100, 22)
         Me.addGuidButton.TabIndex = 6
@@ -652,7 +655,7 @@ Partial Class SimplSerialTool
         'getCurrentGuidButton
         '
         Me.getCurrentGuidButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.getCurrentGuidButton.Location = New System.Drawing.Point(636, 64)
+        Me.getCurrentGuidButton.Location = New System.Drawing.Point(622, 64)
         Me.getCurrentGuidButton.Name = "getCurrentGuidButton"
         Me.getCurrentGuidButton.Size = New System.Drawing.Size(157, 22)
         Me.getCurrentGuidButton.TabIndex = 5
@@ -662,7 +665,7 @@ Partial Class SimplSerialTool
         'guidToAddTextbox
         '
         Me.guidToAddTextbox.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.guidToAddTextbox.Location = New System.Drawing.Point(636, 11)
+        Me.guidToAddTextbox.Location = New System.Drawing.Point(622, 11)
         Me.guidToAddTextbox.Name = "guidToAddTextbox"
         Me.guidToAddTextbox.Size = New System.Drawing.Size(263, 20)
         Me.guidToAddTextbox.TabIndex = 1
@@ -675,7 +678,7 @@ Partial Class SimplSerialTool
         Me.identifiersList.FormattingEnabled = True
         Me.identifiersList.Location = New System.Drawing.Point(7, 12)
         Me.identifiersList.Name = "identifiersList"
-        Me.identifiersList.Size = New System.Drawing.Size(620, 212)
+        Me.identifiersList.Size = New System.Drawing.Size(606, 212)
         Me.identifiersList.TabIndex = 0
         '
         'TabPage4
@@ -692,7 +695,8 @@ Partial Class SimplSerialTool
         '
         'Label23
         '
-        Me.Label23.Location = New System.Drawing.Point(611, 10)
+        Me.Label23.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label23.Location = New System.Drawing.Point(614, 10)
         Me.Label23.Name = "Label23"
         Me.Label23.Size = New System.Drawing.Size(290, 220)
         Me.Label23.TabIndex = 28
@@ -707,10 +711,10 @@ Partial Class SimplSerialTool
         Me.CodeExecutor1.Location = New System.Drawing.Point(4, 9)
         Me.CodeExecutor1.Name = "CodeExecutor1"
         Me.CodeExecutor1.ReferencesList = CType(resources.GetObject("CodeExecutor1.ReferencesList"), System.Collections.Generic.List(Of String))
-        Me.CodeExecutor1.Size = New System.Drawing.Size(599, 224)
+        Me.CodeExecutor1.Size = New System.Drawing.Size(585, 224)
         Me.CodeExecutor1.SourceText = ""
         Me.CodeExecutor1.TabIndex = 0
-        Me.CodeExecutor1.Template = "Imports Bwl.Hardware.SimplSerial.SimplSerialBus'importsPublic Class TestProgram'c" & _
+        Me.CodeExecutor1.Template = "Imports Bwl.Hardware.SimplSerial.SimplSerialBus'importsPublic Class TestProgram'c" &
     "odeEnd Class"
         '
         'Label4

@@ -46,6 +46,9 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Bwl.Framework">
+      <HintPath>..\refs\Bwl.Framework.dll</HintPath>
+    </Reference>
     <Reference Include="Bwl.Hardware.Serial">
       <HintPath>..\refs\Bwl.Hardware.Serial.dll</HintPath>
     </Reference>
