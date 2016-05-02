@@ -127,7 +127,7 @@ Public Class FirmwareUploader
     End Sub
 
     Public Sub EraseFillWritePage(address As Integer, page As Integer, data As Byte(), offset As Integer, size As Integer)
-        If size <> 128 And size <> 64 Then Throw New Exception("EraseFillWritePage:  size <> 128, size <> 64")
+        If size <> 128 And size <> 64 And size <> 256 Then Throw New Exception("EraseFillWritePage:  size <> 128, size <> 64")
         If data.Length < offset + size Then Throw New Exception("EraseFillWritePage: Data not enough")
 
         Dim buffer(size - 1) As Integer
