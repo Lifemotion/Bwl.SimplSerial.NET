@@ -46,9 +46,6 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bwl.Framework">
-      <HintPath>..\refs\Bwl.Framework.dll</HintPath>
-    </Reference>
     <Reference Include="Bwl.Hardware.Serial">
       <HintPath>..\refs\Bwl.Hardware.Serial.dll</HintPath>
     </Reference>
@@ -110,7 +107,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cf.Hardware.SimplSerial\Bwl.Hardware.SimplSerial.vbproj">
+    <ProjectReference Include="..\Bwl.Hardware.SimplSerial\Bwl.Hardware.SimplSerial.vbproj">
       <Project>{0aa843a2-9e2b-40a6-b55e-24cc31c955bc}</Project>
       <Name>Bwl.Hardware.SimplSerial</Name>
     </ProjectReference>

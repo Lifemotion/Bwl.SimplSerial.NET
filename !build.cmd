@@ -1,2 +1,2 @@
-tools\vs-build-all.exe
+tools\vs-build-all.exe -debug -release *
 pause

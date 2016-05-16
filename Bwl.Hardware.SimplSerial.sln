@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Bwl.Hardware.SimplSerial", "Cf.Hardware.SimplSerial\Bwl.Hardware.SimplSerial.vbproj", "{0AA843A2-9E2B-40A6-B55E-24CC31C955BC}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Bwl.Hardware.SimplSerial", "Bwl.Hardware.SimplSerial\Bwl.Hardware.SimplSerial.vbproj", "{0AA843A2-9E2B-40A6-B55E-24CC31C955BC}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Bwl.Hardware.SimplSerial.Tool", "Cf.Hardware.SimplSerial.Tool\Bwl.Hardware.SimplSerial.Tool.vbproj", "{81205043-ED87-46FC-9591-E6F4149CE8EC}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Bwl.Hardware.SimplSerial.Tool", "Bwl.Hardware.SimplSerial.Tool\Bwl.Hardware.SimplSerial.Tool.vbproj", "{81205043-ED87-46FC-9591-E6F4149CE8EC}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Bwl.Hardware.SimplSerial.Test", "Cf.Hardware.SimplSerial.Test\Bwl.Hardware.SimplSerial.Test.vbproj", "{6048F71F-3370-4857-B24E-027F877EE5A4}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Bwl.Hardware.SimplSerial.Test", "Bwl.Hardware.SimplSerial.Test\Bwl.Hardware.SimplSerial.Test.vbproj", "{6048F71F-3370-4857-B24E-027F877EE5A4}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Bwl.Hardware.SimplSerial.ConsoleTool", "Bwl.Hardware.SimplSerial.ConsoleTool\Bwl.Hardware.SimplSerial.ConsoleTool.vbproj", "{C8C52003-1538-4BB5-AB4F-5B3C2FC47B24}"
 EndProject
