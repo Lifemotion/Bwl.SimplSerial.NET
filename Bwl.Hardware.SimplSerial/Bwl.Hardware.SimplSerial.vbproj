@@ -59,7 +59,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Import Include="Bwl.Framework" />
     <Import Include="Bwl.Hardware.Serial" />
     <Import Include="Microsoft.VisualBasic" />
     <Import Include="System" />

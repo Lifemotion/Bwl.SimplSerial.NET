@@ -36,7 +36,7 @@ Public Class FirmwareUploader
         Dim size = ProgmemSize - 1024 * 4
         For i = 0 To size - 1 Step spm
             Dim page As Integer = Math.Floor(i \ spm)
-            _logger.AddMessage("Erase: " + i.ToString + "\" + size.ToString)
+            _logger.AddInformation("Erase: " + i.ToString + "\" + size.ToString)
             Application.DoEvents()
             ErasePage(address, page)
         Next
@@ -75,7 +75,7 @@ Public Class FirmwareUploader
 
         For i = 0 To bin.Length - 1 Step spm
             Dim page As Integer = Math.Floor(i \ spm)
-            _logger.AddMessage("Program: " + i.ToString + "\" + binLength.ToString)
+            _logger.AddInformation("Program: " + i.ToString + "\" + binLength.ToString)
             Application.DoEvents()
             EraseFillWritePage(address, page, bin, i, spm)
         Next

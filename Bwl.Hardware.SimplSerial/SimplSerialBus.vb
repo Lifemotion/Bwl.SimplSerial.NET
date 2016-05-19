@@ -1,4 +1,7 @@
-﻿Imports Bwl.Hardware.Serial
+﻿Imports System.Diagnostics
+#Disable Warning BC40056 ' Пространство имен или тип, указанный в операторе Imports, не содержит открытый член, или невозможно найти пространство имен или тип
+Imports Bwl.Hardware.Serial
+#Enable Warning BC40056 ' Пространство имен или тип, указанный в операторе Imports, не содержит открытый член, или невозможно найти пространство имен или тип
 ''' <summary>
 ''' Реализация базового интерфейса шины SimplSerial.
 ''' </summary>

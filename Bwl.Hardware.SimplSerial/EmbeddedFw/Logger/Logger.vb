@@ -1,4 +1,5 @@
-﻿Imports System.Reflection
+﻿Imports System.Diagnostics
+Imports System.Reflection
 ''' <summary>
 ''' Класс, представляющий средство для иерархичного ведения журнала событий в программе.
 ''' </summary>
