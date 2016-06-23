@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Import Include="Bwl.Hardware.Serial" />
+    <Import Include="Bwl.Hardware.SimplSerial" />
     <Import Include="Microsoft.VisualBasic" />
     <Import Include="System" />
     <Import Include="System.Collections" />
@@ -90,6 +91,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FirmwareUploader.vb" />
+    <Compile Include="EmbeddedFw\Logger\LoggerForm.designer.vb">
+      <DependentUpon>LoggerForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="EmbeddedFw\Logger\LoggerForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Tools\ByteMonitor.Designer.vb">
       <DependentUpon>ByteMonitor.vb</DependentUpon>
     </Compile>
@@ -150,6 +157,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EmbeddedFw\Logger\LogWriters\Realizations\FormLogInfo.resx">
       <DependentUpon>FormLogInfo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EmbeddedFw\Logger\LoggerForm.resx">
+      <DependentUpon>LoggerForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

@@ -91,7 +91,6 @@ Partial Class SimplSerialTool
         Me.devguidTextbox = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.devnameTextbox = New System.Windows.Forms.TextBox()
-        Me.DatagridLogWriter1 = New DatagridLogWriter()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.НастройкиToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.reqGuidTextbox = New System.Windows.Forms.TextBox()
@@ -109,6 +108,8 @@ Partial Class SimplSerialTool
         Me.selectBroadcast = New System.Windows.Forms.RadioButton()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.Label12 = New System.Windows.Forms.Label()
+        Me.DatagridLogWriter1 = New Bwl.Hardware.SimplSerial.DatagridLogWriter()
+        Me.ЛогToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -149,7 +150,7 @@ Partial Class SimplSerialTool
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(905, 233)
+        Me.TabPage1.Size = New System.Drawing.Size(907, 233)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Основное"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -453,7 +454,7 @@ Partial Class SimplSerialTool
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(921, 233)
+        Me.TabPage2.Size = New System.Drawing.Size(907, 233)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Входы-выходы"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -561,7 +562,7 @@ Partial Class SimplSerialTool
         Me.TabPage5.Location = New System.Drawing.Point(4, 22)
         Me.TabPage5.Name = "TabPage5"
         Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage5.Size = New System.Drawing.Size(902, 233)
+        Me.TabPage5.Size = New System.Drawing.Size(907, 233)
         Me.TabPage5.TabIndex = 4
         Me.TabPage5.Text = "Поиск устройств на шине"
         Me.TabPage5.UseVisualStyleBackColor = True
@@ -803,24 +804,6 @@ Partial Class SimplSerialTool
         Me.devnameTextbox.Size = New System.Drawing.Size(307, 20)
         Me.devnameTextbox.TabIndex = 0
         '
-        'DatagridLogWriter1
-        '
-        Me.DatagridLogWriter1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.DatagridLogWriter1.FilterText = ""
-        Me.DatagridLogWriter1.Location = New System.Drawing.Point(1, 478)
-        Me.DatagridLogWriter1.LogEnabled = True
-        Me.DatagridLogWriter1.Margin = New System.Windows.Forms.Padding(0)
-        Me.DatagridLogWriter1.Name = "DatagridLogWriter1"
-        Me.DatagridLogWriter1.ShowDebug = False
-        Me.DatagridLogWriter1.ShowErrors = True
-        Me.DatagridLogWriter1.ShowInformation = True
-        Me.DatagridLogWriter1.ShowMessages = True
-        Me.DatagridLogWriter1.ShowWarnings = True
-        Me.DatagridLogWriter1.Size = New System.Drawing.Size(915, 254)
-        Me.DatagridLogWriter1.TabIndex = 10
-        '
         'MenuStrip1
         '
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.НастройкиToolStripMenuItem})
@@ -832,6 +815,7 @@ Partial Class SimplSerialTool
         '
         'НастройкиToolStripMenuItem
         '
+        Me.НастройкиToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ЛогToolStripMenuItem})
         Me.НастройкиToolStripMenuItem.Name = "НастройкиToolStripMenuItem"
         Me.НастройкиToolStripMenuItem.Size = New System.Drawing.Size(88, 20)
         Me.НастройкиToolStripMenuItem.Text = "Настройки..."
@@ -996,10 +980,36 @@ Partial Class SimplSerialTool
         Me.Label12.TabIndex = 29
         Me.Label12.Text = "Дополнительно:"
         '
+        'DatagridLogWriter1
+        '
+        Me.DatagridLogWriter1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DatagridLogWriter1.ExtendedView = True
+        Me.DatagridLogWriter1.FilterText = ""
+        Me.DatagridLogWriter1.Location = New System.Drawing.Point(1, 478)
+        Me.DatagridLogWriter1.LogEnabled = True
+        Me.DatagridLogWriter1.Margin = New System.Windows.Forms.Padding(0)
+        Me.DatagridLogWriter1.Name = "DatagridLogWriter1"
+        Me.DatagridLogWriter1.ShowDebug = False
+        Me.DatagridLogWriter1.ShowErrors = True
+        Me.DatagridLogWriter1.ShowInformation = True
+        Me.DatagridLogWriter1.ShowMessages = True
+        Me.DatagridLogWriter1.ShowWarnings = True
+        Me.DatagridLogWriter1.Size = New System.Drawing.Size(915, 254)
+        Me.DatagridLogWriter1.TabIndex = 10
+        '
+        'ЛогToolStripMenuItem
+        '
+        Me.ЛогToolStripMenuItem.Name = "ЛогToolStripMenuItem"
+        Me.ЛогToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ЛогToolStripMenuItem.Text = "Лог"
+        '
         'SimplSerialTool
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoScroll = True
         Me.ClientSize = New System.Drawing.Size(917, 733)
         Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.GroupBox2)
@@ -1009,7 +1019,7 @@ Partial Class SimplSerialTool
         Me.Controls.Add(Me.MenuStrip1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip1
-        Me.MinimumSize = New System.Drawing.Size(840, 560)
+        Me.MinimumSize = New System.Drawing.Size(300, 200)
         Me.Name = "SimplSerialTool"
         Me.Text = "SimplSerialTool"
         Me.TabControl1.ResumeLayout(False)
@@ -1126,5 +1136,5 @@ Partial Class SimplSerialTool
     Friend WithEvents Label22 As System.Windows.Forms.Label
     Friend WithEvents Label24 As System.Windows.Forms.Label
     Friend WithEvents Label25 As System.Windows.Forms.Label
-
+    Friend WithEvents ЛогToolStripMenuItem As ToolStripMenuItem
 End Class
