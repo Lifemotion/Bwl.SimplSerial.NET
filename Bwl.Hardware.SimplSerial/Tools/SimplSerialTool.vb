@@ -364,7 +364,7 @@ Public Class SimplSerialTool
     End Sub
 
     Private Sub ЛогToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ЛогToolStripMenuItem.Click
-        Dim loggerForm = New LoggerForm(_logger)
-        loggerForm.Show()
+        ' Dim loggerForm = New LoggerForm(_logger)
+        ' loggerForm.Show()
     End Sub
 End Class
